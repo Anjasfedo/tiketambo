@@ -21,8 +21,14 @@ class Penjualan extends Model
         return $this->belongsTo(User::class);
     }
 
+    // public function pembayaran()
+    // {
+    //     return $this->hasOne(Pembayaran::class);
+    // }
+
     public function pembayaran()
     {
-        return $this->hasOne(Pembayaran::class);
+        return $this->hasOne(Pembayaran::class, 'penjualan_id')->withDefault();
     }
+
 }

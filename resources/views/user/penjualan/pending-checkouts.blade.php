@@ -7,6 +7,12 @@
     @if($pendingCheckouts->isEmpty())
         <p class="text-gray-700">Anda tidak memiliki pesanan yang belum dibayar.</p>
     @else
+        @if(session('success'))
+            <div class="bg-green-100 text-green-700 p-4 rounded mb-4">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <div class="bg-white p-6 rounded shadow-md">
             <table class="min-w-full">
                 <thead>
@@ -28,10 +34,20 @@
                             <td class="py-2 px-4 border-b">{{ $checkout->tiket->nama }}</td>
                             <td class="py-2 px-4 border-b">{{ $checkout->pembayaran->jumlah_tiket }}</td>
                             <td class="py-2 px-4 border-b">{{ number_format($totalHarga, 2) }}</td>
-                            <td class="py-2 px-4 border-b">
+                            <td class="py-2 px-4 border-b flex space-x-2">
+                                <!-- Checkout Button -->
                                 <a href="{{ route('pembayaran.checkout', $checkout->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">
                                     Checkout
                                 </a>
+
+                                <!-- Cancel Button -->
+                                <form action="{{ route('penjualan.cancel', $checkout->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">
+                                        Cancel
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach

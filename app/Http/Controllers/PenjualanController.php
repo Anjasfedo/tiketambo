@@ -74,4 +74,23 @@ class PenjualanController extends Controller
 
         return view('user.penjualan.pending-checkouts', compact('pendingCheckouts'));
     }
+
+    public function cancelCheckout($id)
+    {
+        // Find the Penjualan record
+        $penjualan = Penjualan::where('id', $id)
+            ->where('user_id', Auth::id()) // Ensure the record belongs to the authenticated user
+            ->firstOrFail();
+
+        // Delete the associated Pembayaran record if it exists
+        if ($penjualan->pembayaran) {
+            $penjualan->pembayaran->delete();
+        }
+
+        // Delete the Penjualan record itself
+        $penjualan->delete();
+
+        // Redirect back with a success message
+        return redirect()->route('penjualan.pending-checkouts')->with('success', 'Checkout has been canceled successfully.');
+    }
 }

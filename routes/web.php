@@ -41,6 +41,8 @@ Route::prefix('penjualan')->group(function () {
     Route::get('pending-checkouts', [PenjualanController::class, 'pendingCheckouts'])->name('penjualan.pending-checkouts');
 });
 
+Route::delete('penjualan/{id}/cancel', [PenjualanController::class, 'cancelCheckout'])->name('penjualan.cancel');
+
 
 Route::prefix('pembayaran')->group(function () {
     Route::get('/checkout/{penjualan}', [PembayaranController::class, 'checkout'])->name('pembayaran.checkout');
