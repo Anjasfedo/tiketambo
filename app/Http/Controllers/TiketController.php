@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Tiket;
 use App\Models\Acara;
+use App\Models\PenjualanTiket;
 use Illuminate\Http\Request;
 
-class TicketController extends Controller
+class TiketController extends Controller
 {
     /**
      * Display a listing of tickets for a specific Acara.
@@ -93,4 +94,26 @@ class TicketController extends Controller
 
         return redirect()->route('acaras.show', $acara->id)->with('success', 'Tiket berhasil dihapus!');
     }
+
+    // /**
+    //  * Display a list of all tickets for the admin.
+    //  */
+    // public function adminIndex()
+    // {
+    //     $tikets = Tiket::with('acara')->get(); // Load acara details for each ticket
+    //     return view('admin.tikets.index', compact('tikets'));
+    // }
+
+    // /**
+    //  * Display a list of all sales and payment information for a specific ticket.
+    //  */
+    // public function showSales($ticket_id)
+    // {
+    //     $ticket = Tiket::with('acara')->findOrFail($ticket_id);
+    //     $sales = PenjualanTiket::with(['pembayaran', 'user'])
+    //         ->where('tiket_id', $ticket_id)
+    //         ->get();
+
+    //     return view('admin.tikets.sales', compact('ticket', 'sales'));
+    // }
 }

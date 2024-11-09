@@ -63,4 +63,15 @@ class PenjualanTiketController extends Controller
         $penjualan = PenjualanTiket::with(['tiket', 'user', 'pembayaran'])->findOrFail($id);
         return view('user.penjualan.show', compact('penjualan'));
     }
+
+    public function pendingCheckouts()
+    {
+        // Fetch all pending PenjualanTiket records for the authenticated user
+        $pendingCheckouts = PenjualanTiket::with('tiket')
+            ->where('user_id', Auth::id())
+            ->where('status', 'pending')
+            ->get();
+
+        return view('user.penjualan.pending-checkouts', compact('pendingCheckouts'));
+    }
 }

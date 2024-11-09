@@ -3,7 +3,8 @@
 use App\Http\Controllers\AcaraController;
 use App\Http\Controllers\PenjualanTiketController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TicketController;
+use App\Http\Controllers\TiketController;
+use App\Http\Controllers\PembayaranController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Tiket;
 
@@ -29,21 +30,34 @@ Route::middleware('auth')->group(function () {
 Route::resource('acaras', AcaraController::class);
 
 Route::prefix('acaras/{acara}')->group(function () {
-    Route::resource('tikets', TicketController::class)->except(['index']);
+    Route::resource('tikets', TiketController::class)->except(['index']);
 });
 
 Route::prefix('penjualan')->group(function () {
     Route::get('create/{tiket}', [PenjualanTiketController::class, 'create'])->name('penjualan.create');
     Route::post('store/{tiket}', [PenjualanTiketController::class, 'store'])->name('penjualan.store');
     Route::get('show/{id}', [PenjualanTiketController::class, 'show'])->name('penjualan.show');
+
+    Route::get('pending-checkouts', [PenjualanTiketController::class, 'pendingCheckouts'])->name('penjualan.pending-checkouts');
 });
 
-use App\Http\Controllers\PembayaranController;
 
 Route::prefix('pembayaran')->group(function () {
     Route::get('/checkout/{penjualan}', [PembayaranController::class, 'checkout'])->name('pembayaran.checkout');
     Route::post('/process/{penjualan}', [PembayaranController::class, 'processPayment'])->name('pembayaran.process');
 });
+
+Route::prefix('admin')->middleware(['auth'])->group(function () {
+    Route::get('/acaras', [AcaraController::class, 'adminIndex'])->name('admin.acaras.index');
+    Route::get('/acaras/{acara}/tikets', [AcaraController::class, 'showTickets'])->name('admin.acaras.tikets');
+    Route::get('/tikets/{ticket}/sales', [AcaraController::class, 'showSales'])->name('admin.acaras.sales');
+});
+
+// Route::prefix('admin')->middleware(['auth'])->group(function () {
+//     Route::get('/tikets', [TiketController::class, 'adminIndex'])->name('admin.tikets.index');
+//     Route::get('/tikets/{ticket}/sales', [TiketController::class, 'showSales'])->name('admin.tikets.sales');
+// });
+
 
 
 require __DIR__.'/auth.php';

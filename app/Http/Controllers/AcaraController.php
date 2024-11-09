@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Acara;
+use App\Models\PenjualanTiket;
+use App\Models\Tiket;
 use Illuminate\Http\Request;
 use App\Services\StorageService;
 use Illuminate\Support\Facades\Auth;
@@ -123,5 +125,30 @@ class AcaraController extends Controller
         $acara->delete();
 
         return redirect()->route('acaras.index')->with('success', 'Acara berhasil dihapus!');
+    }
+
+    public function adminIndex()
+    {
+        $acaras = Acara::all();
+        return view('admin.acaras.index', compact('acaras'));
+    }
+
+    /**
+     * Show all tickets (Tikets) for a specific event (Acara) for the admin.
+     */
+    public function showTickets($acara_id)
+    {
+        $acara = Acara::with('tiket')->findOrFail($acara_id);
+        return view('admin.acaras.tikets', compact('acara'));
+    }
+
+    public function showSales($ticket_id)
+    {
+        $ticket = Tiket::with('acara')->findOrFail($ticket_id);
+        $sales = PenjualanTiket::with(['pembayaran', 'user'])
+            ->where('tiket_id', $ticket_id)
+            ->get();
+
+        return view('admin.acaras.sales', compact('ticket', 'sales'));
     }
 }
