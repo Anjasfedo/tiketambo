@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // just add new column for simplycity
         // Create roles and permissions if not exists
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
 
