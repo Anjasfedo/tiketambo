@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
 Route::resource('acaras', AcaraController::class);
 
 Route::prefix('acaras/{acara}')->group(function () {
-    Route::resource('tikets', TicketController::class)->except(['show', 'index']);
+    Route::resource('tikets', TicketController::class)->except(['index']);
 });
 
 require __DIR__.'/auth.php';

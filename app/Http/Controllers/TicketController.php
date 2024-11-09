@@ -18,6 +18,13 @@ class TicketController extends Controller
         return view('tikets.index', compact('tikets', 'acara'));
     }
 
+    public function show($acara_id, $id)
+    {
+        $acara = Acara::findOrFail($acara_id);
+        $tiket = Tiket::where('acara_id', $acara->id)->findOrFail($id);
+        return view('tikets.show', compact('tiket', 'acara'));
+    }
+
     /**
      * Show the form for creating a new ticket for a specific Acara.
      */
