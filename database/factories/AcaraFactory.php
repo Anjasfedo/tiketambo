@@ -11,6 +11,7 @@ class AcaraFactory extends Factory
     public function definition()
     {
         return [
+            'nama' => $this->faker->name,
             'lokasi' => $this->faker->address,
             'deskripsi' => $this->faker->paragraph,
             'tanggal' => $this->faker->date,

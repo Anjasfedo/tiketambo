@@ -28,7 +28,7 @@
                         <td class="py-2 px-4 border-b">{{ number_format($tiket->harga_tiket, 2) }}</td>
                         <td class="py-2 px-4 border-b">{{ $tiket->stok_tiket }}</td>
                         <td class="py-2 px-4 border-b">
-                            <a href="{{ route('admin.tikets.sales', $tiket->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">
+                            <a href="{{ route('admin.acaras.sales', $tiket->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">
                                 Show Sales
                             </a>
                         </td>
