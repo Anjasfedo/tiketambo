@@ -4,9 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\Acara;
 use Illuminate\Http\Request;
+use App\Services\StorageService;
+use Illuminate\Support\Facades\Auth;
 
 class AcaraController extends Controller
 {
+    protected $storageService;
+
+    /**
+     * Create a new controller instance and inject StorageService.
+     *
+     * @param  StorageService  $storageService
+     * @return void
+     */
+    public function __construct(StorageService $storageService)
+    {
+        $this->storageService = $storageService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -30,17 +45,25 @@ class AcaraController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'nama' => 'required|string|max:255',
             'lokasi' => 'required|string|max:255',
             'tanggal' => 'required|date',
             'jam' => 'required',
-            'user_id' => 'required|exists:users,id',
             'deskripsi' => 'nullable|string',
-            'gambar' => 'nullable|string'
+            'gambar' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,pdf,docx|max:2048'  // Accept various file types
         ]);
+
+        // Handle file upload if present
+        if ($request->hasFile('gambar')) {
+            $validated['gambar'] = $this->storageService->upload($request->file('gambar'));
+        }
+
+        // Set the logged-in user's ID
+        $validated['user_id'] = Auth::id();
 
         Acara::create($validated);
 
-        return redirect()->route('acaras.index')->with('success', 'Event created successfully!');
+        return redirect()->route('acaras.index')->with('success', 'Acara berhasil dibuat!');
     }
 
     /**
@@ -49,7 +72,6 @@ class AcaraController extends Controller
     public function show(string $id)
     {
         $acara = Acara::findOrFail($id);
-
         return view('acaras.show', compact('acara'));
     }
 
@@ -59,7 +81,6 @@ class AcaraController extends Controller
     public function edit(string $id)
     {
         $acara = Acara::findOrFail($id);
-
         return view('acaras.edit', compact('acara'));
     }
 
@@ -69,18 +90,24 @@ class AcaraController extends Controller
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
+            'nama' => 'required|string|max:255',
             'lokasi' => 'required|string|max:255',
             'tanggal' => 'required|date',
             'jam' => 'required',
             'deskripsi' => 'nullable|string',
-            'gambar' => 'nullable|string'
+            'gambar' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,pdf,docx|max:2048'  // Accept various file types
         ]);
 
         $acara = Acara::findOrFail($id);
 
+        // Update the file if a new one is provided
+        if ($request->hasFile('gambar')) {
+            $validated['gambar'] = $this->storageService->update($request->file('gambar'), $acara->gambar);
+        }
+
         $acara->update($validated);
 
-        return redirect()->route('acaras.index')->with('success', 'Event updated successfully!');
+        return redirect()->route('acaras.index')->with('success', 'Acara berhasil diperbarui!');
     }
 
     /**
@@ -89,8 +116,12 @@ class AcaraController extends Controller
     public function destroy(string $id)
     {
         $acara = Acara::findOrFail($id);
+
+        // Delete the associated file if it exists
+        $this->storageService->delete($acara->gambar);
+
         $acara->delete();
 
-        return redirect()->route('acaras.index')->with('success', 'Event deleted successfully!');
+        return redirect()->route('acaras.index')->with('success', 'Acara berhasil dihapus!');
     }
 }

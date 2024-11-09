@@ -9,7 +9,7 @@ class Acara extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['lokasi', 'deskripsi', 'tanggal', 'jam', 'gambar', 'user_id'];
+    protected $fillable = ['nama', 'lokasi', 'deskripsi', 'tanggal', 'jam', 'gambar', 'user_id'];
 
     public function user()
     {

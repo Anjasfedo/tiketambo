@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('acaras', function (Blueprint $table) {
             $table->id();
+            $table->string('nama');
             $table->string('lokasi');
             $table->text('deskripsi')->nullable();
             $table->date('tanggal');
