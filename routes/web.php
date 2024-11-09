@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AcaraController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TicketController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,5 +22,9 @@ Route::middleware('auth')->group(function () {
 //
 
 Route::resource('acaras', AcaraController::class);
+
+Route::prefix('acaras/{acara}')->group(function () {
+    Route::resource('tikets', TicketController::class)->except(['show', 'index']);
+});
 
 require __DIR__.'/auth.php';
