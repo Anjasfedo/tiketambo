@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Acara;
 use App\Models\Pembayaran;
-use App\Models\PenjualanTiket;
+use App\Models\Penjualan;
 use App\Models\Tiket;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
             ->create();
 
         // Seed additional penjualan_tiket and pembayaran
-        PenjualanTiket::factory()
+        Penjualan::factory()
             ->count(20) // Create 20 sales
             ->has(Pembayaran::factory()) // Each sale has one pembayaran
             ->create();

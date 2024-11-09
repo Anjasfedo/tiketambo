@@ -1,14 +1,14 @@
 <?php
 namespace Database\Factories;
 
-use App\Models\PenjualanTiket;
+use App\Models\Penjualan;
 use App\Models\Tiket;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PenjualanTiketFactory extends Factory
+class PenjualanFactory extends Factory
 {
-    protected $model = PenjualanTiket::class;
+    protected $model = Penjualan::class;
 
     public function definition()
     {

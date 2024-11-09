@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pembayaran;
-use App\Models\PenjualanTiket;
+use App\Models\Penjualan;
 use Illuminate\Http\Request;
 
 class PembayaranController extends Controller
@@ -13,7 +13,7 @@ class PembayaranController extends Controller
      */
     public function checkout($penjualan_id)
     {
-        $penjualan = PenjualanTiket::with('tiket')->findOrFail($penjualan_id);
+        $penjualan = Penjualan::with('tiket')->findOrFail($penjualan_id);
         return view('user.pembayaran.checkout', compact('penjualan'));
     }
 
@@ -22,7 +22,7 @@ class PembayaranController extends Controller
      */
     public function processPayment(Request $request, $penjualan_id)
     {
-        $penjualan = PenjualanTiket::with('tiket')->findOrFail($penjualan_id);
+        $penjualan = Penjualan::with('tiket')->findOrFail($penjualan_id);
 
         // Calculate the total payment amount based on the ticket quantity and price
         $jumlah_bayar = $penjualan->tiket->harga_tiket * $penjualan->pembayaran->jumlah_tiket;
@@ -33,7 +33,7 @@ class PembayaranController extends Controller
             'tanggal_pembayaran' => now(),
         ]);
 
-        // Update the status of the PenjualanTiket to "completed"
+        // Update the status of the Penjualan to "completed"
         $penjualan->update(['status' => 'completed']);
 
         return redirect()->route('penjualan.show', $penjualan->id)->with('success', 'Pembayaran berhasil!');

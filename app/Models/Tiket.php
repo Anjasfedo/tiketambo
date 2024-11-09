@@ -16,8 +16,8 @@ class Tiket extends Model
         return $this->belongsTo(Acara::class);
     }
 
-    public function penjualanTiket()
+    public function penjualan()
     {
-        return $this->hasMany(PenjualanTiket::class);
+        return $this->hasMany(Penjualan::class);
     }
 }

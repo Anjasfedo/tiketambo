@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AcaraController;
-use App\Http\Controllers\PenjualanTiketController;
+use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TiketController;
 use App\Http\Controllers\PembayaranController;
@@ -34,11 +34,11 @@ Route::prefix('acaras/{acara}')->group(function () {
 });
 
 Route::prefix('penjualan')->group(function () {
-    Route::get('create/{tiket}', [PenjualanTiketController::class, 'create'])->name('penjualan.create');
-    Route::post('store/{tiket}', [PenjualanTiketController::class, 'store'])->name('penjualan.store');
-    Route::get('show/{id}', [PenjualanTiketController::class, 'show'])->name('penjualan.show');
+    Route::get('create/{tiket}', [PenjualanController::class, 'create'])->name('penjualan.create');
+    Route::post('store/{tiket}', [PenjualanController::class, 'store'])->name('penjualan.store');
+    Route::get('show/{id}', [PenjualanController::class, 'show'])->name('penjualan.show');
 
-    Route::get('pending-checkouts', [PenjualanTiketController::class, 'pendingCheckouts'])->name('penjualan.pending-checkouts');
+    Route::get('pending-checkouts', [PenjualanController::class, 'pendingCheckouts'])->name('penjualan.pending-checkouts');
 });
 
 

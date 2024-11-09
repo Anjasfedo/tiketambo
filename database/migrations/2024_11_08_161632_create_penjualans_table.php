@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('penjualan_tikets', function (Blueprint $table) {
+        Schema::create('penjualans', function (Blueprint $table) {
             $table->id();
             $table->string('nomor_pesanan')->unique();
             $table->enum('status', ['pending', 'completed', 'canceled']);

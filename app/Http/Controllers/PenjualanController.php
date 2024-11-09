@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PenjualanTiket;
+use App\Models\Penjualan;
 use App\Models\Pembayaran;
 use App\Models\Tiket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class PenjualanTiketController extends Controller
+class PenjualanController extends Controller
 {
     public function create($tiket_id)
     {
@@ -27,8 +27,8 @@ class PenjualanTiketController extends Controller
 
         $nomor_pesanan = 'ORD-' . strtoupper(uniqid());
 
-        // Step 1: Create PenjualanTiket with 'pending' status
-        $penjualan = PenjualanTiket::create([
+        // Step 1: Create Penjualan with 'pending' status
+        $penjualan = Penjualan::create([
             'nomor_pesanan' => $nomor_pesanan,
             'tiket_id' => $tiket->id,
             'status' => 'pending',  // Status will stay pending until payment is confirmed
@@ -40,7 +40,7 @@ class PenjualanTiketController extends Controller
         $jumlah_bayar = $validated['jumlah_tiket'] * $tiket->harga_tiket;
 
         Pembayaran::create([
-            'penjualan_tiket_id' => $penjualan->id,
+            'penjualan_id' => $penjualan->id,
             'metode_pembayaran' => $validated['metode_pembayaran'],
             'jumlah_tiket' => $validated['jumlah_tiket'],
             'jumlah_bayar' => $jumlah_bayar,
@@ -60,14 +60,14 @@ class PenjualanTiketController extends Controller
      */
     public function show($id)
     {
-        $penjualan = PenjualanTiket::with(['tiket', 'user', 'pembayaran'])->findOrFail($id);
+        $penjualan = Penjualan::with(['tiket', 'user', 'pembayaran'])->findOrFail($id);
         return view('user.penjualan.show', compact('penjualan'));
     }
 
     public function pendingCheckouts()
     {
-        // Fetch all pending PenjualanTiket records for the authenticated user
-        $pendingCheckouts = PenjualanTiket::with('tiket')
+        // Fetch all pending Penjualan records for the authenticated user
+        $pendingCheckouts = Penjualan::with('tiket')
             ->where('user_id', Auth::id())
             ->where('status', 'pending')
             ->get();

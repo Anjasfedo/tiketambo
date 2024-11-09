@@ -21,7 +21,7 @@
         <div class="flex justify-end items-center p-4 bg-gray-800">
             <!-- Fetch and display pending checkouts count -->
             @php
-                $pendingCheckoutCount = \App\Models\PenjualanTiket::where('user_id', Auth::id())
+                $pendingCheckoutCount = \App\Models\Penjualan::where('user_id', Auth::id())
                     ->where('status', 'pending')
                     ->count();
             @endphp

@@ -9,10 +9,10 @@ class Pembayaran extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['penjualan_tiket_id', 'metode_pembayaran', 'jumlah_tiket', 'jumlah_bayar', 'tanggal_pembayaran'];
+    protected $fillable = ['penjualan_id', 'metode_pembayaran', 'jumlah_tiket', 'jumlah_bayar', 'tanggal_pembayaran'];
 
-    public function penjualanTiket()
+    public function penjualan()
     {
-        return $this->belongsTo(PenjualanTiket::class);
+        return $this->belongsTo(Penjualan::class);
     }
 }

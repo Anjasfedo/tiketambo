@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Acara;
-use App\Models\PenjualanTiket;
+use App\Models\Penjualan;
 use App\Models\Tiket;
 use Illuminate\Http\Request;
 use App\Services\StorageService;
@@ -145,7 +145,7 @@ class AcaraController extends Controller
     public function showSales($ticket_id)
     {
         $ticket = Tiket::with('acara')->findOrFail($ticket_id);
-        $sales = PenjualanTiket::with(['pembayaran', 'user'])
+        $sales = Penjualan::with(['pembayaran', 'user'])
             ->where('tiket_id', $ticket_id)
             ->get();
 
