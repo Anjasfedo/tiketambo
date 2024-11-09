@@ -7,13 +7,13 @@
     <div class="bg-white p-6 rounded shadow-md">
         <p><strong>Nomor Pesanan:</strong> {{ $penjualan->nomor_pesanan }}</p>
         <p><strong>Nama Tiket:</strong> {{ $penjualan->tiket->nama }}</p>
-        <p><strong>Harga Tiket:</strong> {{ number_format($penjualan->tiket->harga_tiket, 2) }}</p>
 
         @php
-            $jumlah_tiket = $penjualan->pembayaran ? $penjualan->pembayaran->jumlah_tiket : $penjualan->jumlah_tiket;
-            $total_harga = $penjualan->tiket->harga_tiket * $jumlah_tiket;
+            $jumlah_tiket = $penjualan->pembayaran->jumlah_tiket ?? 1;  // Defaults to 1 if not set
+            $total_harga = $penjualan->pembayaran->jumlah_bayar ?? $penjualan->tiket->harga_tiket * $jumlah_tiket;
         @endphp
 
+        <p><strong>Harga per Tiket:</strong> {{ number_format($total_harga / $jumlah_tiket, 2) }}</p>
         <p><strong>Jumlah Tiket:</strong> {{ $jumlah_tiket }}</p>
         <p><strong>Total Harga:</strong> {{ number_format($total_harga, 2) }}</p>
 

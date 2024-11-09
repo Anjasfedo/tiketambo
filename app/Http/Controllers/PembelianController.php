@@ -2,31 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pembayaran;
 use App\Models\Penjualan;
-use App\Models\UserTicket;
+use App\Models\Pembayaran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class PembayaranController extends Controller
+class PembelianController extends Controller
 {
-    /**
-     * Show the checkout page for the specified ticket sale.
-     */
     public function checkout($penjualan_id)
     {
         $penjualan = Penjualan::with('tiket')->findOrFail($penjualan_id);
         return view('user.pembayaran.checkout', compact('penjualan'));
     }
 
-    /**
-     * Process the payment and update the payment record to mark it as completed.
-     */
     public function processPayment(Request $request, $penjualan_id)
     {
         $penjualan = Penjualan::with('tiket')->findOrFail($penjualan_id);
 
+        $jumlah_bayar = $penjualan->tiket->harga_tiket * $penjualan->pembayaran->jumlah_tiket;
+
         // Update Pembayaran record and complete Penjualan
         $penjualan->pembayaran->update([
+            'jumlah_bayar' => $jumlah_bayar,
             'tanggal_pembayaran' => now(),
         ]);
 

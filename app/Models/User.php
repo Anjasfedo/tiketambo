@@ -46,4 +46,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Relationship with Withdrawal (a user can have multiple withdrawals)
+    public function withdrawals()
+    {
+        return $this->hasMany(Withdrawal::class);
+    }
+
+    // Relationship with UserTicket (a user can own multiple tickets)
+    public function userTickets()
+    {
+        return $this->hasMany(UserTicket::class);
+    }
 }

@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('nomor_pesanan')->unique();
             $table->enum('status', ['pending', 'completed', 'canceled']);
+            $table->boolean('is_resale')->default(false);
             $table->date('tanggal_pemesanan');
             $table->foreignIdFor(App\Models\Tiket::class, 'tiket_id')->constrained()->onDelete('cascade');
-            $table->foreignIdFor(App\Models\User::class, 'user_id')->constrained()->onDelete('cascade');
+            $table->foreignIdFor(App\Models\User::class, 'user_id')->constrained()->onDelete('cascade'); // Buyer
+            $table->foreignId('seller_id')->constrained('users')->onDelete('cascade'); // New: Seller reference
             $table->timestamps();
         });
     }

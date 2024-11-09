@@ -18,6 +18,7 @@ class PenjualanFactory extends Factory
             'status' => $this->faker->randomElement(['pending', 'completed', 'canceled']),
             'tanggal_pemesanan' => $this->faker->date,
             'user_id' => User::factory(), // Create a new user for each sale
+            'seller_id' => 1, // Create a new user for each sale
         ];
     }
 }

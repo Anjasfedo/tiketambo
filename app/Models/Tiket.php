@@ -16,8 +16,14 @@ class Tiket extends Model
         return $this->belongsTo(Acara::class);
     }
 
-    public function penjualan()
+    public function penjualans()
     {
         return $this->hasMany(Penjualan::class);
+    }
+
+    // Relationship with UserTicket (a ticket can be owned by multiple users over time)
+    public function userTickets()
+    {
+        return $this->hasMany(UserTicket::class);
     }
 }

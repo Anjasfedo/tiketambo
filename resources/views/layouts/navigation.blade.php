@@ -23,6 +23,15 @@
                     <x-nav-link :href="route('admin.acaras.index')" :active="request()->routeIs('admin.acaras.index')">
                         {{ __('Admin - Acaras') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('user.tickets.index')" :active="request()->routeIs('user.tickets.index')">
+                        {{ __('My Tickets') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('released-tickets')" :active="request()->routeIs('released-tickets')">
+                        {{ __('Released Tickets') }}
+                    </x-nav-link>
+
                 </div>
             </div>
 

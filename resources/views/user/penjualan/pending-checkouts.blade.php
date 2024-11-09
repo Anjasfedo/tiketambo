@@ -27,13 +27,14 @@
                 <tbody>
                     @foreach($pendingCheckouts as $checkout)
                         @php
-                            $totalHarga = $checkout->tiket->harga_tiket * $checkout->pembayaran->jumlah_tiket;
+                            $jumlah_tiket = $checkout->pembayaran->jumlah_tiket ?? 1;
+                            $total_harga = $checkout->pembayaran->jumlah_bayar ?? $checkout->tiket->harga_tiket * $jumlah_tiket;
                         @endphp
                         <tr class="hover:bg-gray-100">
                             <td class="py-2 px-4 border-b">{{ $checkout->nomor_pesanan }}</td>
                             <td class="py-2 px-4 border-b">{{ $checkout->tiket->nama }}</td>
-                            <td class="py-2 px-4 border-b">{{ $checkout->pembayaran->jumlah_tiket }}</td>
-                            <td class="py-2 px-4 border-b">{{ number_format($totalHarga, 2) }}</td>
+                            <td class="py-2 px-4 border-b">{{ $jumlah_tiket }}</td>
+                            <td class="py-2 px-4 border-b">{{ number_format($total_harga, 2) }}</td>
                             <td class="py-2 px-4 border-b flex space-x-2">
                                 <!-- Checkout Button -->
                                 <a href="{{ route('pembayaran.checkout', $checkout->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">
