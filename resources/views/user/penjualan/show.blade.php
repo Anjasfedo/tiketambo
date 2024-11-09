@@ -9,14 +9,29 @@
         <p><strong>Nama Tiket:</strong> {{ $penjualan->tiket->nama }}</p>
         <p><strong>Harga Tiket:</strong> {{ number_format($penjualan->tiket->harga_tiket, 2) }}</p>
 
-        <!-- Display jumlah_tiket from Pembayaran -->
-        @if($penjualan->pembayaran)
+        @if($penjualan->status === 'completed' && $penjualan->pembayaran)
+            <!-- Display details for a completed payment -->
             <p><strong>Jumlah Tiket:</strong> {{ $penjualan->pembayaran->jumlah_tiket }}</p>
             <p><strong>Total Harga:</strong> {{ number_format($penjualan->pembayaran->jumlah_bayar, 2) }}</p>
             <p><strong>Metode Pembayaran:</strong> {{ ucfirst($penjualan->pembayaran->metode_pembayaran) }}</p>
             <p><strong>Tanggal Pembayaran:</strong> {{ $penjualan->pembayaran->tanggal_pembayaran }}</p>
+            <p class="text-green-500 font-semibold">Pembayaran berhasil diselesaikan.</p>
+
+        @elseif($penjualan->status === 'pending')
+            <!-- Display details and action for pending payment -->
+            <p><strong>Jumlah Tiket:</strong> {{ $penjualan->pembayaran->jumlah_tiket }}</p>
+            <p><strong>Total Harga (Estimated):</strong> {{ number_format($penjualan->pembayaran->jumlah_tiket * $penjualan->tiket->harga_tiket, 2) }}</p>
+            <p class="text-red-500"><strong>Pembayaran belum dilakukan.</strong></p>
+
+            <a href="{{ route('pembayaran.checkout', $penjualan->id) }}" class="mt-4 inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Proceed to Payment
+            </a>
+
         @else
-            <p class="text-red-500"><strong>Pembayaran belum tersedia.</strong></p>
+            <!-- Display for any other status (e.g., canceled) -->
+            <p><strong>Jumlah Tiket:</strong> {{ $penjualan->jumlah_tiket }}</p>
+            <p><strong>Total Harga:</strong> {{ number_format($penjualan->jumlah_tiket * $penjualan->tiket->harga_tiket, 2) }}</p>
+            <p class="text-gray-500"><strong>Status:</strong> {{ ucfirst($penjualan->status) }}</p>
         @endif
 
         <p><strong>Status:</strong> {{ ucfirst($penjualan->status) }}</p>
@@ -25,10 +40,6 @@
         <div class="mt-4">
             <a href="{{ route('dashboard') }}" class="inline-block bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                 Kembali ke Dashboard
-            </a>
-
-            <a href="{{ route('penjualan.create', $penjualan->tiket->id) }}" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2">
-                Beli Lagi
             </a>
         </div>
     </div>

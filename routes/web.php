@@ -38,4 +38,12 @@ Route::prefix('penjualan')->group(function () {
     Route::get('show/{id}', [PenjualanTiketController::class, 'show'])->name('penjualan.show');
 });
 
+use App\Http\Controllers\PembayaranController;
+
+Route::prefix('pembayaran')->group(function () {
+    Route::get('/checkout/{penjualan}', [PembayaranController::class, 'checkout'])->name('pembayaran.checkout');
+    Route::post('/process/{penjualan}', [PembayaranController::class, 'processPayment'])->name('pembayaran.process');
+});
+
+
 require __DIR__.'/auth.php';

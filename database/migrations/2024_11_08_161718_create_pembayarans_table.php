@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('metode_pembayaran');
             $table->integer('jumlah_tiket');
             $table->decimal('jumlah_bayar', 10, 2);
-            $table->date('tanggal_pembayaran');
+            $table->date('tanggal_pembayaran')->nullable();
             $table->foreignIdFor(App\Models\PenjualanTiket::class, 'penjualan_tiket_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
