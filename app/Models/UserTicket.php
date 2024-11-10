@@ -39,6 +39,11 @@ class UserTicket extends Model
         return $this->belongsTo(Tiket::class, 'tiket_id');
     }
 
+    public function penjualanDetails()
+    {
+        return $this->hasMany(PenjualanDetail::class);
+    }
+
     // Accessor for human-readable status
     public function getStatusLabelAttribute()
     {
