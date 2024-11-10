@@ -27,6 +27,8 @@ class UserTicket extends Model
     const STATUS_FOR_SALE = 'for_sale';
     const STATUS_SOLD = 'sold';
 
+    const STATUS_EXPIRED = 'expired';
+
     // Relationship with the User model
     public function user()
     {

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Current owner
             $table->foreignId('tiket_id')->constrained()->onDelete('cascade'); // Ticket reference
-            $table->enum('status', ['active', 'for_sale', 'sold'])->default('active'); // Track resale status
+            $table->enum('status', ['active', 'for_sale', 'sold', 'expired'])->default('active'); // Track resale status
             $table->decimal('price', 10, 2); // Sale price for the ticket
             $table->timestamps();
         });
