@@ -38,7 +38,7 @@ class PenjualanController extends Controller
             'status' => 'pending',
             'tanggal_pemesanan' => now(),
             'user_id' => Auth::id(),
-            'seller_id' => 1, // Default to admin as seller
+            'seller_id' => $seller_id, // Set seller
             'is_resale' => false, // New: Original sale
         ]);
 
@@ -54,20 +54,25 @@ class PenjualanController extends Controller
         // Update ticket stock
         $tiket->decrement('stok_tiket', $validated['jumlah_tiket']);
 
-        // Create UserTicket record(s)
+        // Create UserTicket and PenjualanDetail records
         for ($i = 0; $i < $validated['jumlah_tiket']; $i++) {
-            UserTicket::create([
+            $userTicket = UserTicket::create([
                 'user_id' => Auth::id(),   // Buyer
                 'tiket_id' => $tiket->id,
                 'status' => 'active',      // Initial status as active
                 'price' => $tiket->harga_tiket,
+            ]);
+
+            // Attach each UserTicket to the Penjualan via PenjualanDetail
+            $penjualan->penjualanDetails()->create([
+                'user_ticket_id' => $userTicket->id,
+                'is_resale' => false, // Original sale
             ]);
         }
 
         return redirect()->route('penjualan.show', $penjualan->id)
             ->with('success', 'Tiket berhasil dipesan! Silakan lakukan pembayaran.');
     }
-
 
     /**
      * Display the specified ticket sale.
@@ -164,7 +169,7 @@ class PenjualanController extends Controller
             'tanggal_pemesanan' => now(),
             'user_id' => Auth::id(),
             'seller_id' => $userTicket->user_id,
-            'is_resale' => true, // New: Resale transaction
+            'is_resale' => true, // Resale transaction
         ]);
 
         // Use resale price for jumlah_bayar
@@ -176,15 +181,42 @@ class PenjualanController extends Controller
             'tanggal_pembayaran' => null,
         ]);
 
-        // Update the UserTicket to the new owner and set it as 'active'
-        $userTicket->update([
-            'user_id' => Auth::id(), // New owner
-            'status' => 'for_sale', // Reset the status from 'for_sale' to 'active'
+        // Attach the UserTicket to the Penjualan via PenjualanDetail
+        $resalePenjualan->penjualanDetails()->create([
+            'user_ticket_id' => $userTicket->id,
+            'is_resale' => true, // Mark as resale
         ]);
+
+        // Update the UserTicket to the new owner and set it as 'active'
+        // $userTicket->update([
+        //     'user_id' => Auth::id(), // New owner
+        //     'status' => 'active',    // Reset the status from 'for_sale' to 'active'
+        // ]);
 
         return redirect()->route('penjualan.show', $resalePenjualan->id)
             ->with('success', 'Ticket purchase successful! Please proceed with payment.');
     }
 
+    public function markTicketActive(Request $request, $userTicketId)
+    {
+        // Find the UserTicket owned by the authenticated user
+        $userTicket = UserTicket::where('id', $userTicketId)
+            ->where('user_id', Auth::id())
+            ->where('status', 'sold') // Only allow reactivation if the ticket is currently sold
+            ->firstOrFail();
+
+        // Ensure the ticket's event date has not passed
+        // $eventDate = $userTicket->tiket->acara->tanggal;
+        // if (now()->greaterThanOrEqualTo($eventDate)) {
+        //     return redirect()->back()->withErrors('This ticket cannot be reactivated as the event date has passed.');
+        // }
+
+        // Update the UserTicket status to "active"
+        $userTicket->update([
+            'status' => 'active',
+        ]);
+
+        return redirect()->back()->with('success', 'Your ticket is now active and can be resold.');
+    }
 
 }

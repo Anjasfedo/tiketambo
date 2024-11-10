@@ -77,6 +77,9 @@ Route::get('/released-tickets', [UserTicketController::class, 'releasedTickets']
 
 Route::post('penjualan/resale/{userTicketId}', [PenjualanController::class, 'resaleStore'])->name('penjualan.resale');
 
+
+Route::post('/user-ticket/{userTicketId}/activate', [PenjualanController::class, 'markTicketActive'])->name('user-ticket.activate');
+
 // Route::prefix('admin')->middleware(['auth'])->group(function () {
 //     Route::get('/tikets', [TiketController::class, 'adminIndex'])->name('admin.tikets.index');
 //     Route::get('/tikets/{ticket}/sales', [TiketController::class, 'showSales'])->name('admin.tikets.sales');
