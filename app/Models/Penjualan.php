@@ -9,7 +9,7 @@ class Penjualan extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nomor_pesanan', 'tiket_id', 'status', 'tanggal_pemesanan', 'user_id', 'seller_id', 'is_resale'];
+    protected $fillable = ['nomor_pesanan', 'tiket_id', 'status', 'tanggal_pemesanan', 'user_id', 'seller_id'];
 
     public function tiket()
     {
