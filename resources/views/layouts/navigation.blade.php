@@ -11,28 +11,33 @@
                 </div>
 
                 <!-- User Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
+<div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+        {{ __('Dashboard') }}
+    </x-nav-link>
 
-                    <x-nav-link :href="route('acaras.index')" :active="request()->routeIs('acaras.*')">
-                        {{ __('Acara') }}
-                    </x-nav-link>
+    <x-nav-link :href="route('acaras.index')" :active="request()->routeIs('acaras.*')">
+        {{ __('Acara') }}
+    </x-nav-link>
 
-                    <x-nav-link :href="route('admin.acaras.index')" :active="request()->routeIs('admin.acaras.index')">
-                        {{ __('Admin - Acaras') }}
-                    </x-nav-link>
+    <x-nav-link :href="route('admin.acaras.index')" :active="request()->routeIs('admin.acaras.index')">
+        {{ __('Admin - Acaras') }}
+    </x-nav-link>
 
-                    <x-nav-link :href="route('user.tickets.index')" :active="request()->routeIs('user.tickets.index')">
-                        {{ __('My Tickets') }}
-                    </x-nav-link>
+    <x-nav-link :href="route('user.tickets.index')" :active="request()->routeIs('user.tickets.index')">
+        {{ __('My Tickets') }}
+    </x-nav-link>
 
-                    <x-nav-link :href="route('released-tickets')" :active="request()->routeIs('released-tickets')">
-                        {{ __('Released Tickets') }}
-                    </x-nav-link>
+    <x-nav-link :href="route('released-tickets')" :active="request()->routeIs('released-tickets')">
+        {{ __('Released Tickets') }}
+    </x-nav-link>
 
-                </div>
+    <!-- New Withdraw Funds Link -->
+    <x-nav-link :href="route('withdrawal.index')" :active="request()->routeIs('withdrawal.index')">
+        {{ __('Withdraw Funds') }}
+    </x-nav-link>
+</div>
+
             </div>
 
             <!-- Settings Dropdown -->

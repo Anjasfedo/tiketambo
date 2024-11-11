@@ -80,6 +80,13 @@ Route::post('penjualan/resale/{userTicketId}', [PenjualanController::class, 'res
 
 Route::post('/user-ticket/{userTicketId}/activate', [PenjualanController::class, 'markTicketActive'])->name('user-ticket.activate');
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/withdrawal', [WithdrawalController::class, 'index'])->name('withdrawal.index');
+    Route::post('/withdrawal/request', [WithdrawalController::class, 'request'])->name('withdrawal.request');
+    Route::post('/withdrawal/{withdrawalId}/process', [WithdrawalController::class, 'process'])->name('withdrawal.process'); // For admin use
+    Route::post('/withdrawal/{withdrawalId}/cancel', [WithdrawalController::class, 'cancel'])->name('withdrawal.cancel');
+});
+
 // Route::prefix('admin')->middleware(['auth'])->group(function () {
 //     Route::get('/tikets', [TiketController::class, 'adminIndex'])->name('admin.tikets.index');
 //     Route::get('/tikets/{ticket}/sales', [TiketController::class, 'showSales'])->name('admin.tikets.sales');

@@ -59,7 +59,7 @@ class PenjualanController extends Controller
             $userTicket = UserTicket::create([
                 'user_id' => Auth::id(),   // Buyer
                 'tiket_id' => $tiket->id,
-                'status' => 'active',      // Initial status as active
+                // 'status' => 'active',      // Initial status as active
                 'price' => $tiket->harga_tiket,
             ]);
 

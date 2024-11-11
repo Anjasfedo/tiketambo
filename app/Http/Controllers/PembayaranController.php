@@ -41,6 +41,10 @@ class PembayaranController extends Controller
             ]);
         }
 
+        // Add the payment amount to the seller's "money" balance
+        $seller = $penjualan->seller;
+        $seller->increment('money', $penjualan->pembayaran->jumlah_bayar);
+
         return redirect()->route('penjualan.show', $penjualan->id)->with('success', 'Pembayaran berhasil!');
     }
 }
