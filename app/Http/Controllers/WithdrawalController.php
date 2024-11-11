@@ -78,11 +78,4 @@ class WithdrawalController extends Controller
 
         return redirect()->back()->with('success', 'Withdrawal has been canceled and funds returned to your balance.');
     }
-
-    public function history()
-    {
-        $withdrawals = Withdrawal::where('user_id', Auth::id())->latest()->get();
-        return view('user.withdrawals.history', compact('withdrawals'));
-    }
-
 }

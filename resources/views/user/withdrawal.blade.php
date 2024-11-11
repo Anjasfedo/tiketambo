@@ -12,7 +12,7 @@
 
         <!-- Withdrawal Form -->
         <div class="bg-white p-6 rounded shadow-md mb-8">
-            {{ Auth::user()->money }}
+            <p><strong>Available Balance:</strong> {{ number_format(Auth::user()->money, 2) }}</p>
             <h2 class="text-xl font-semibold mb-4">Request Withdrawal</h2>
             <form action="{{ route('withdrawal.request') }}" method="POST">
                 @csrf
@@ -34,6 +34,7 @@
                         <th class="border-b py-2 text-left">Date</th>
                         <th class="border-b py-2 text-left">Amount</th>
                         <th class="border-b py-2 text-left">Status</th>
+                        <th class="border-b py-2 text-left">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,6 +43,26 @@
                             <td class="py-2">{{ $withdrawal->created_at->format('Y-m-d') }}</td>
                             <td class="py-2">{{ number_format($withdrawal->amount, 2) }}</td>
                             <td class="py-2">{{ ucfirst($withdrawal->status) }}</td>
+                            <td class="py-2">
+                                @if ($withdrawal->status === 'pending')
+                                    <form action="{{ route('withdrawal.process', $withdrawal->id) }}" method="POST" class="inline">
+                                        @csrf
+                                        <button type="submit"
+                                            class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded">
+                                            Process
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('withdrawal.cancel', $withdrawal->id) }}" method="POST" class="inline">
+                                        @csrf
+                                        <button type="submit"
+                                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">
+                                            Cancel
+                                        </button>
+                                    </form>
+                                @else
+                                    <span class="text-gray-500">No Actions</span>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
