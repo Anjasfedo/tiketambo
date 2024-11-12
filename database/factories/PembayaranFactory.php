@@ -13,7 +13,11 @@ class PembayaranFactory extends Factory
     {
         return [
             'penjualan_id' => Penjualan::factory(), // Link to a new Penjualan
-            'metode_pembayaran' => $this->faker->randomElement(['credit_card', 'bank_transfer', 'paypal']),
+            'metode_pembayaran' => $this->faker->randomElement([
+                Pembayaran::METODE_CREDIT_CARD,
+                Pembayaran::METODE_BANK_TRANSFER,
+                Pembayaran::METODE_PAYPAL
+            ]),
             'jumlah_tiket' => $this->faker->numberBetween(1, 5),
             'jumlah_bayar' => $this->faker->randomFloat(2, 50, 500), // Random amount between 50 and 500
             'tanggal_pembayaran' => $this->faker->date,

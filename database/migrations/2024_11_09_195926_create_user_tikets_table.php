@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Current owner
             $table->foreignId('tiket_id')->constrained()->onDelete('cascade'); // Ticket reference
             $table->enum('status', ['aktif', 'dijual', 'terjual', 'kedaluwarsa'])->default('dijual');
-            $table->decimal('price', 10, 2); // Sale price for the ticket
+            $table->decimal('harga_jual', 10, 2); // Sale price for the ticket
             $table->timestamps();
         });
     }

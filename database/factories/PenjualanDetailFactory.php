@@ -21,7 +21,7 @@ class PenjualanDetailFactory extends Factory
         return [
             'penjualan_id' => Penjualan::factory(), // Link to a new Penjualan
             'user_tiket_id' => UserTiket::factory(), // Link to a new UserTicket
-            'is_resale' => $this->faker->boolean, // Randomly determine if it’s a resale
+            'adalah_resale' => $this->faker->boolean, // Randomly determine if it’s a resale
         ];
     }
 }

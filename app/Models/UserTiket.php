@@ -19,7 +19,7 @@ class UserTiket extends Model
         'user_id',
         'tiket_id',
         'status',
-        'price',
+        'harga_jual',
     ];
 
     // Define the possible statuses for a user ticket

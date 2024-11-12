@@ -14,8 +14,8 @@ class TiketFactory extends Factory
         return [
             'acara_id' => Acara::factory(), // Create a new acara for each tiket
             'nama' => $this->faker->word,
-            'harga_tiket' => $this->faker->randomFloat(2, 10, 500), // Random price between 10 and 500
-            'stok_tiket' => $this->faker->numberBetween(50, 200),
+            'harga' => $this->faker->randomFloat(2, 10, 500), // Harga acak antara 10 dan 500
+            'stok' => $this->faker->numberBetween(50, 200),
         ];
     }
 }

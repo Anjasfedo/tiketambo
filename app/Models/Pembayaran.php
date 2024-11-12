@@ -11,6 +11,10 @@ class Pembayaran extends Model
 
     protected $fillable = ['penjualan_id', 'metode_pembayaran', 'jumlah_tiket', 'jumlah_bayar', 'tanggal_pembayaran'];
 
+    const METODE_CREDIT_CARD = 'credit_card';
+    const METODE_BANK_TRANSFER = 'bank_transfer';
+    const METODE_PAYPAL = 'paypal';
+
     public function penjualan()
     {
         return $this->belongsTo(Penjualan::class);

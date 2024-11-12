@@ -15,7 +15,7 @@ class AcaraFactory extends Factory
             'lokasi' => $this->faker->address,
             'deskripsi' => $this->faker->paragraph,
             'tanggal' => $this->faker->date,
-            'jam' => $this->faker->time,
+            'waktu' => $this->faker->time,
             'gambar' => $this->faker->imageUrl(640, 480, 'event', true),
             'user_id' => User::factory(), // Create a new user for each acara
         ];
