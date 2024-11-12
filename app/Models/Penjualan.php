@@ -11,6 +11,10 @@ class Penjualan extends Model
 
     protected $fillable = ['nomor_pesanan', 'tiket_id', 'status', 'tanggal_pemesanan', 'user_id', 'seller_id'];
 
+    const STATUS_PENDING = 'menunggu';
+    const STATUS_COMPLETED = 'selesai';
+    const STATUS_CANCELED = 'dibatalkan';
+
     public function tiket()
     {
         return $this->belongsTo(Tiket::class);

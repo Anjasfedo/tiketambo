@@ -23,11 +23,11 @@ class UserTiket extends Model
     ];
 
     // Define the possible statuses for a user ticket
-    const STATUS_ACTIVE = 'active';
-    const STATUS_FOR_SALE = 'for_sale';
-    const STATUS_SOLD = 'sold';
+    const STATUS_ACTIVE = 'aktif';
+    const STATUS_FOR_SALE = 'dijual';
+    const STATUS_SOLD = 'terjual';
 
-    const STATUS_EXPIRED = 'expired';
+    const STATUS_EXPIRED = 'kedaluwarsa';
 
     // Relationship with the User model
     public function user()

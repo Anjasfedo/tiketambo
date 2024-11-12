@@ -22,8 +22,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'money'
+        'saldo',
+        'role'
     ];
+
+    const ROLE_ADMIN = 'admin';
+    const ROLE_USER = 'user';
 
     /**
      * The attributes that should be hidden for serialization.
@@ -45,6 +49,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'saldo' => 'decimal:2',
         ];
     }
 
@@ -54,8 +59,8 @@ class User extends Authenticatable
         return $this->hasMany(Withdrawal::class);
     }
 
-    // Relationship with UserTicket (a user can own multiple tickets)
-    public function userTickets()
+    // Relationship with UserTiket (a user can own multiple tickets)
+    public function userTikets()
     {
         return $this->hasMany(UserTiket::class);
     }

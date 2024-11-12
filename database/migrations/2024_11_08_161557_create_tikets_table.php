@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('tikets', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->decimal('harga_tiket', 10, 2);
-            $table->integer('stok_tiket');
+            $table->decimal('harga', 10, 2);
+            $table->integer('stok');
             $table->foreignIdFor(App\Models\Acara::class, 'acara_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

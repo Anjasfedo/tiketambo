@@ -66,10 +66,6 @@ Route::post('withdrawals/request', [WithdrawalController::class, 'request'])->na
 Route::post('penjualan/store/{tiket}', [PenjualanController::class, 'store'])->name('penjualan.store');
 Route::post('penjualan/{penjualan}/resell', [PenjualanController::class, 'resell'])->name('penjualan.resell');
 
-// Ticket Purchases (Pembelian)
-Route::get('pembelian/checkout/{penjualan}', [PembelianController::class, 'checkout'])->name('pembelian.checkout');
-Route::post('pembelian/process/{penjualan}', [PembelianController::class, 'processPayment'])->name('pembelian.process');
-
 Route::get('user/tickets', [UserTiketController::class, 'index'])->name('user.tickets.index');
 Route::post('user/tickets/{id}/resell', [UserTiketController::class, 'resell'])->name('user.tickets.resell');
 

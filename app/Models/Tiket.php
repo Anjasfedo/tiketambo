@@ -9,7 +9,7 @@ class Tiket extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['acara_id', 'nama', 'harga_tiket', 'stok_tiket'];
+    protected $fillable = ['acara_id', 'nama', 'harga', 'stok'];
 
     public function acara()
     {
@@ -21,8 +21,8 @@ class Tiket extends Model
         return $this->hasMany(Penjualan::class);
     }
 
-    // Relationship with UserTicket (a ticket can be owned by multiple users over time)
-    public function userTickets()
+    // Relationship with UserTiket (a ticket can be owned by multiple users over time)
+    public function userTikets()
     {
         return $this->hasMany(UserTiket::class);
     }

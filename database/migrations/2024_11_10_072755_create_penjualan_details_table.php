@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('penjualan_id')->constrained()->onDelete('cascade'); // Reference to penjualan
             $table->foreignId('user_tiket_id')->constrained()->onDelete('cascade'); // Reference to user_ticket
-            $table->boolean('is_resale')->default(false); // Resale status field
+            $table->boolean('adalah_resale')->default(false); // Resale status field
             $table->timestamps();
         });
     }

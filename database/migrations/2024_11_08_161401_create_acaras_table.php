@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('lokasi');
             $table->text('deskripsi')->nullable();
             $table->date('tanggal');
-            $table->time('jam');
+            $table->time('waktu');
             $table->string('gambar')->nullable();
             $table->foreignIdFor(App\Models\User::class, 'user_id')->constrained()->onDelete('cascade');
             $table->timestamps();

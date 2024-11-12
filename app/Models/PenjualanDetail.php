@@ -9,7 +9,7 @@ class PenjualanDetail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['penjualan_id', 'user_tiket_id', 'is_resale'];
+    protected $fillable = ['penjualan_id', 'user_tiket_id', 'adalah_resale'];
 
     // Relationship to Penjualan
     public function penjualan()
@@ -17,7 +17,7 @@ class PenjualanDetail extends Model
         return $this->belongsTo(Penjualan::class);
     }
 
-    // Relationship to UserTicket
+    // Relationship to UserTiket
     public function userTiket()
     {
         return $this->belongsTo(UserTiket::class);
