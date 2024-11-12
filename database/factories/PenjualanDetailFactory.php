@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Penjualan;
-use App\Models\UserTicket;
+use App\Models\UserTiket;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,7 +20,7 @@ class PenjualanDetailFactory extends Factory
     {
         return [
             'penjualan_id' => Penjualan::factory(), // Link to a new Penjualan
-            'user_ticket_id' => UserTicket::factory(), // Link to a new UserTicket
+            'user_tiket_id' => UserTiket::factory(), // Link to a new UserTicket
             'is_resale' => $this->faker->boolean, // Randomly determine if it’s a resale
         ];
     }

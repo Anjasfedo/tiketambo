@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Penjualan;
 use App\Models\Pembayaran;
 use App\Models\Tiket;
-use App\Models\UserTicket;
+use App\Models\UserTiket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -54,18 +54,18 @@ class PenjualanController extends Controller
         // Update ticket stock
         $tiket->decrement('stok_tiket', $validated['jumlah_tiket']);
 
-        // Create UserTicket and PenjualanDetail records
+        // Create UserTiket and PenjualanDetail records
         for ($i = 0; $i < $validated['jumlah_tiket']; $i++) {
-            $userTicket = UserTicket::create([
+            $userTiket = UserTiket::create([
                 'user_id' => Auth::id(),   // Buyer
                 'tiket_id' => $tiket->id,
                 // 'status' => 'active',      // Initial status as active
                 'price' => $tiket->harga_tiket,
             ]);
 
-            // Attach each UserTicket to the Penjualan via PenjualanDetail
+            // Attach each UserTiket to the Penjualan via PenjualanDetail
             $penjualan->penjualanDetails()->create([
-                'user_ticket_id' => $userTicket->id,
+                'user_tiket_id' => $userTiket->id,
                 'is_resale' => false, // Original sale
             ]);
         }
@@ -148,9 +148,9 @@ class PenjualanController extends Controller
         return redirect()->back()->with('success', 'Tiket telah berhasil dipasang untuk dijual.');
     }
 
-    public function resaleStore(Request $request, $userTicketId)
+    public function resaleStore(Request $request, $userTiketId)
     {
-        $userTicket = UserTicket::where('id', $userTicketId)
+        $userTiket = UserTiket::where('id', $userTiketId)
             ->where('status', 'for_sale')
             ->firstOrFail();
 
@@ -164,11 +164,11 @@ class PenjualanController extends Controller
         // Create a new Penjualan for the resale
         $resalePenjualan = Penjualan::create([
             'nomor_pesanan' => $nomor_pesanan,
-            'tiket_id' => $userTicket->tiket_id,
+            'tiket_id' => $userTiket->tiket_id,
             'status' => 'pending',
             'tanggal_pemesanan' => now(),
             'user_id' => Auth::id(),
-            'seller_id' => $userTicket->user_id,
+            'seller_id' => $userTiket->user_id,
             'is_resale' => true, // Resale transaction
         ]);
 
@@ -177,18 +177,18 @@ class PenjualanController extends Controller
             'penjualan_id' => $resalePenjualan->id,
             'metode_pembayaran' => $validated['metode_pembayaran'],
             'jumlah_tiket' => 1,
-            'jumlah_bayar' => $userTicket->price, // Resale price
+            'jumlah_bayar' => $userTiket->price, // Resale price
             'tanggal_pembayaran' => null,
         ]);
 
-        // Attach the UserTicket to the Penjualan via PenjualanDetail
+        // Attach the UserTiket to the Penjualan via PenjualanDetail
         $resalePenjualan->penjualanDetails()->create([
-            'user_ticket_id' => $userTicket->id,
+            'user_tiket_id' => $userTiket->id,
             'is_resale' => true, // Mark as resale
         ]);
 
-        // Update the UserTicket to the new owner and set it as 'active'
-        // $userTicket->update([
+        // Update the UserTiket to the new owner and set it as 'active'
+        // $userTiket->update([
         //     'user_id' => Auth::id(), // New owner
         //     'status' => 'active',    // Reset the status from 'for_sale' to 'active'
         // ]);
@@ -197,22 +197,22 @@ class PenjualanController extends Controller
             ->with('success', 'Ticket purchase successful! Please proceed with payment.');
     }
 
-    public function markTicketActive(Request $request, $userTicketId)
+    public function markTicketActive(Request $request, $userTiketId)
     {
-        // Find the UserTicket owned by the authenticated user
-        $userTicket = UserTicket::where('id', $userTicketId)
+        // Find the UserTiket owned by the authenticated user
+        $userTiket = UserTiket::where('id', $userTiketId)
             ->where('user_id', Auth::id())
             ->where('status', 'sold') // Only allow reactivation if the ticket is currently sold
             ->firstOrFail();
 
         // Ensure the ticket's event date has not passed
-        // $eventDate = $userTicket->tiket->acara->tanggal;
+        // $eventDate = $userTiket->tiket->acara->tanggal;
         // if (now()->greaterThanOrEqualTo($eventDate)) {
         //     return redirect()->back()->withErrors('This ticket cannot be reactivated as the event date has passed.');
         // }
 
-        // Update the UserTicket status to "active"
-        $userTicket->update([
+        // Update the UserTiket status to "active"
+        $userTiket->update([
             'status' => 'active',
         ]);
 

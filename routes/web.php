@@ -6,7 +6,7 @@ use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TiketController;
 use App\Http\Controllers\PembayaranController;
-use App\Http\Controllers\UserTicketController;
+use App\Http\Controllers\UserTiketController;
 use App\Http\Controllers\WithdrawalController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Tiket;
@@ -58,7 +58,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/tikets/{ticket}/sales', [AcaraController::class, 'showSales'])->name('admin.acaras.sales');
 });
 
-// Route::post('user-tickets/{id}/resell', [UserTicketController::class, 'resell'])->name('user-tickets.resell');
+// Route::post('user-tickets/{id}/resell', [UserTiketController::class, 'resell'])->name('user-tickets.resell');
 
 Route::post('withdrawals/request', [WithdrawalController::class, 'request'])->name('withdrawals.request');
 
@@ -70,15 +70,15 @@ Route::post('penjualan/{penjualan}/resell', [PenjualanController::class, 'resell
 Route::get('pembelian/checkout/{penjualan}', [PembelianController::class, 'checkout'])->name('pembelian.checkout');
 Route::post('pembelian/process/{penjualan}', [PembelianController::class, 'processPayment'])->name('pembelian.process');
 
-Route::get('user/tickets', [UserTicketController::class, 'index'])->name('user.tickets.index');
-Route::post('user/tickets/{id}/resell', [UserTicketController::class, 'resell'])->name('user.tickets.resell');
+Route::get('user/tickets', [UserTiketController::class, 'index'])->name('user.tickets.index');
+Route::post('user/tickets/{id}/resell', [UserTiketController::class, 'resell'])->name('user.tickets.resell');
 
-Route::get('/released-tickets', [UserTicketController::class, 'releasedTickets'])->name('released-tickets');
+Route::get('/released-tickets', [UserTiketController::class, 'releasedTickets'])->name('released-tickets');
 
-Route::post('penjualan/resale/{userTicketId}', [PenjualanController::class, 'resaleStore'])->name('penjualan.resale');
+Route::post('penjualan/resale/{userTiketId}', [PenjualanController::class, 'resaleStore'])->name('penjualan.resale');
 
 
-Route::post('/user-ticket/{userTicketId}/activate', [PenjualanController::class, 'markTicketActive'])->name('user-ticket.activate');
+Route::post('/user-ticket/{userTiketId}/activate', [PenjualanController::class, 'markTicketActive'])->name('user-ticket.activate');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/withdrawal', [WithdrawalController::class, 'index'])->name('withdrawal.index');

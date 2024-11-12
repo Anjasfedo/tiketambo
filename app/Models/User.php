@@ -57,6 +57,6 @@ class User extends Authenticatable
     // Relationship with UserTicket (a user can own multiple tickets)
     public function userTickets()
     {
-        return $this->hasMany(UserTicket::class);
+        return $this->hasMany(UserTiket::class);
     }
 }

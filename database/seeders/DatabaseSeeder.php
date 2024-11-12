@@ -8,7 +8,7 @@ use App\Models\Penjualan;
 use App\Models\PenjualanDetail;
 use App\Models\Tiket;
 use App\Models\User;
-use App\Models\UserTicket;
+use App\Models\UserTiket;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 
@@ -49,15 +49,15 @@ class DatabaseSeeder extends Seeder
             ->create()
             ->each(function ($penjualan) {
                 // For each penjualan, create user tickets and link to penjualan details
-                $userTickets = UserTicket::factory()->count(3)->create([
+                $userTikets = UserTiket::factory()->count(3)->create([
                     'user_id' => $penjualan->user_id, // Associate user ticket with the buyer in the penjualan
                 ]);
 
                 // Link each user ticket to the penjualan through penjualan details
-                foreach ($userTickets as $userTicket) {
+                foreach ($userTikets as $userTiket) {
                     PenjualanDetail::factory()->create([
                         'penjualan_id' => $penjualan->id,
-                        'user_ticket_id' => $userTicket->id,
+                        'user_tiket_id' => $userTiket->id,
                         'is_resale' => true, // Set resale status as desired, or use random values
                     ]);
                 }

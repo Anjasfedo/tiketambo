@@ -4,20 +4,20 @@ namespace Database\Factories;
 
 use App\Models\Tiket;
 use App\Models\User;
-use App\Models\UserTicket;
+use App\Models\UserTiket;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\UserTicket>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\UserTiket>
  */
-class UserTicketFactory extends Factory
+class UserTiketFactory extends Factory
 {
     /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
      */
-    protected $model = UserTicket::class;
+    protected $model = UserTiket::class;
 
     public function definition()
     {

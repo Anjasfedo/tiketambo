@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pembayaran;
 use App\Models\Penjualan;
-use App\Models\UserTicket;
+use App\Models\UserTiket;
 use Illuminate\Http\Request;
 
 class PembayaranController extends Controller
@@ -33,9 +33,9 @@ class PembayaranController extends Controller
         // Mark the Penjualan as completed
         $penjualan->update(['status' => 'completed']);
 
-        // Update the UserTicket status to "active" or "sold" based on PenjualanDetail
+        // Update the UserTiket status to "active" or "sold" based on PenjualanDetail
         foreach ($penjualan->penjualanDetails as $detail) {
-            $detail->userTicket->update([
+            $detail->userTiket->update([
                 'user_id' => $penjualan->user_id, // Set new owner to the buyer's user_id
                 'status' => 'sold', // Or another status if appropriate
             ]);

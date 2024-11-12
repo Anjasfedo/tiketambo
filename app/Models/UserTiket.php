@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Tiket;
 
-class UserTicket extends Model
+class UserTiket extends Model
 {
     use HasFactory;
 
     // Define the table name if it doesn't follow Laravel's plural convention
-    protected $table = 'user_tickets';
+    protected $table = 'user_tikets';
 
     // Specify which attributes are mass-assignable
     protected $fillable = [
