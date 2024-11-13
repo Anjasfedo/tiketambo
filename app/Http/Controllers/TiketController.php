@@ -44,8 +44,8 @@ class TiketController extends Controller
 
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
-            'harga_tiket' => 'required|numeric',
-            'stok_tiket' => 'required|integer|min:1'
+            'harga' => 'required|numeric',
+            'stok' => 'required|integer|min:1'
         ]);
 
         $validated['acara_id'] = $acara->id;
@@ -74,8 +74,8 @@ class TiketController extends Controller
 
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
-            'harga_tiket' => 'required|numeric',
-            'stok_tiket' => 'required|integer|min:1'
+            'harga' => 'required|numeric',
+            'stok' => 'required|integer|min:1'
         ]);
 
         $tiket->update($validated);

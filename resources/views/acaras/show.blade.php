@@ -26,7 +26,7 @@
                             <p><strong>Jam:</strong> {{ $acara->jam }}</p>
                             <p><strong>Deskripsi:</strong> {{ $acara->deskripsi }}</p>
 
-                            <a href="{{ route('acaras.index') }}" class="btn btn-warning mt-4">
+                            <a href="{{ route('acaras.index') }}" class="btn btn-secondary mt-4">
                                 Kembali ke Daftar Acara
                             </a>
                         </div>
@@ -69,11 +69,11 @@
                                                     <a href="{{ route('tikets.edit', [$acara->id, $tiket->id]) }}" class="btn btn-warning btn-sm mx-1">
                                                         Edit
                                                     </a>
-                                                    <form action="{{ route('tikets.destroy', [$acara->id, $tiket->id]) }}" method="POST" class="d-inline">
+                                                    <form action="{{ route('tikets.destroy', [$acara->id, $tiket->id]) }}" method="POST" class="d-inline delete-alertbox">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger btn-sm"
-                                                                onclick="return confirm('Apakah Anda yakin?')">Hapus</button>
+                                                                >Hapus</button>
                                                     </form>
                                                 </td>
                                             </tr>
