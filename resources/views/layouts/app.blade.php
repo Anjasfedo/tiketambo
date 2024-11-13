@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>@yield('title')</title>
+    <title>Tiket</title>
     <!-- General CSS Files -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
@@ -39,8 +39,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <div class="dropdown-title">Logged in </div>
-                            <a href="" class="dropdown-item has-icon"><i
-                                    class="far fa-user"></i> Profile</a>
+                            <a href="" class="dropdown-item has-icon"><i class="far fa-user"></i> Profile</a>
                             <div class="dropdown-divider"></div>
                             <form action="" method="POST">
                                 <button type="submit"
@@ -54,10 +53,10 @@
             <div class="main-sidebar">
                 <aside id="sidebar-wrapper">
                     <div class="sidebar-brand">
-                        <a href="#">Mail</a>
+                        <a href="{{ route('dashboard') }}">Tiket</a>
                     </div>
                     <div class="sidebar-brand sidebar-brand-sm">
-                        <a href="#">M</a>
+                        <a href="{{ route('dashboard') }}">T</a>
                     </div>
                     @include('layouts.menu')
                 </aside>
@@ -116,6 +115,34 @@
                 }
             });
         });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+
+        // Check for the session success message and show it in a toast
+        @if (session('success'))
+            Toast.fire({
+                icon: "success",
+                title: "{{ session('success') }}"
+            });
+        @elseif (session('error'))
+            Toast.fire({
+                icon: "error",
+                title: "{{ session('error') }}"
+            });
+        @endif
     </script>
 
     @stack('scripts')

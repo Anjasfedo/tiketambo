@@ -1,76 +1,79 @@
-<!-- resources/views/acaras/create.blade.php -->
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto py-8">
-    <h1 class="text-2xl font-bold mb-4">Buat Acara Baru</h1>
+<section class="section">
+    <div class="section-header">
+        <h1>Acara</h1>
+    </div>
 
-    <!-- Display all validation errors -->
-    @if ($errors->any())
-        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-            <strong>Terjadi kesalahan pada input:</strong>
-            <ul class="mt-2 list-disc list-inside">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+    <div class="section-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Create Acara</h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('acaras.store') }}" method="POST" enctype="multipart/form-data" class="bg-white p-4 rounded shadow">
+                            @csrf
+
+                            <div class="mb-3">
+                                <label for="nama" class="form-label">Nama Acara</label>
+                                <input type="text" name="nama" id="nama" class="form-control" value="{{ old('nama') }}" required>
+                                @error('nama')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="lokasi" class="form-label">Lokasi</label>
+                                <input type="text" name="lokasi" id="lokasi" class="form-control" value="{{ old('lokasi') }}" required>
+                                @error('lokasi')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="tanggal" class="form-label">Tanggal</label>
+                                <input type="date" name="tanggal" id="tanggal" class="form-control" value="{{ old('tanggal') }}" required>
+                                @error('tanggal')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="jam" class="form-label">Jam</label>
+                                <input type="time" name="jam" id="jam" class="form-control" value="{{ old('jam') }}" required>
+                                @error('jam')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="deskripsi" class="form-label">Deskripsi</label>
+                                <textarea name="deskripsi" id="deskripsi" class="form-control">{{ old('deskripsi') }}</textarea>
+                                @error('deskripsi')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="gambar" class="form-label">Gambar</label>
+                                <input type="file" name="gambar" id="gambar" class="form-control">
+                                @error('gambar')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                                Buat Acara
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-    @endif
 
-    <form action="{{ route('acaras.store') }}" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded shadow-md">
-        @csrf
-
-        <div class="mb-4">
-            <label for="nama" class="block text-gray-700">Nama Acara</label>
-            <input type="text" name="nama" id="nama" class="w-full p-2 border border-gray-300 rounded" value="{{ old('nama') }}" required>
-            @error('nama')
-                <span class="text-red-500 text-sm">{{ $message }}</span>
-            @enderror
-        </div>
-
-        <div class="mb-4">
-            <label for="lokasi" class="block text-gray-700">Lokasi</label>
-            <input type="text" name="lokasi" id="lokasi" class="w-full p-2 border border-gray-300 rounded" value="{{ old('lokasi') }}" required>
-            @error('lokasi')
-                <span class="text-red-500 text-sm">{{ $message }}</span>
-            @enderror
-        </div>
-
-        <div class="mb-4">
-            <label for="tanggal" class="block text-gray-700">Tanggal</label>
-            <input type="date" name="tanggal" id="tanggal" class="w-full p-2 border border-gray-300 rounded" value="{{ old('tanggal') }}" required>
-            @error('tanggal')
-                <span class="text-red-500 text-sm">{{ $message }}</span>
-            @enderror
-        </div>
-
-        <div class="mb-4">
-            <label for="jam" class="block text-gray-700">Jam</label>
-            <input type="time" name="jam" id="jam" class="w-full p-2 border border-gray-300 rounded" value="{{ old('jam') }}" required>
-            @error('jam')
-                <span class="text-red-500 text-sm">{{ $message }}</span>
-            @enderror
-        </div>
-
-        <div class="mb-4">
-            <label for="deskripsi" class="block text-gray-700">Deskripsi</label>
-            <textarea name="deskripsi" id="deskripsi" class="w-full p-2 border border-gray-300 rounded">{{ old('deskripsi') }}</textarea>
-            @error('deskripsi')
-                <span class="text-red-500 text-sm">{{ $message }}</span>
-            @enderror
-        </div>
-
-        <div class="mb-4">
-            <label for="gambar" class="block text-gray-700">Gambar</label>
-            <input type="file" name="gambar" id="gambar" class="w-full p-2 border border-gray-300 rounded">
-            @error('gambar')
-                <span class="text-red-500 text-sm">{{ $message }}</span>
-            @enderror
-        </div>
-
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Buat Acara
-        </button>
-    </form>
-</div>
+    </div>
+</section>
 @endsection

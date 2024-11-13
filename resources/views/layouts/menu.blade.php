@@ -1,22 +1,15 @@
 <ul class="sidebar-menu">
-    <li class="menu-header">Dashboard</li>
-    <li class="nav-item">
-        <a href="" class="nav-link"><i class="fas fa-fire"></i><span>Dashboard</span></a>
-    </li>
-    <li class="menu-header">Mail</li>
+    <li class="menu-header">Tiket</li>
     <li class="nav-item dropdown">
-        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="far fa-file-alt"></i> <span>Disposition</span></a>
+        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="far fa-file-alt"></i> <span>Data</span></a>
         <ul class="dropdown-menu">
             <li>
-                <a class="nav-link" href="">Incoming Disposition</a>
-            </li>
-            <li>
-                <a class="nav-link" href="">Outgoing Disposition</a>
+                <a class="nav-link" href="{{ route('acaras.index') }}">Acara</a>
             </li>
         </ul>
     </li>
-    <li class="menu-header">Agenda</li>
+    <li class="menu-header">Penjualan</li>
     <li>
-        <a class="nav-link" href=""><i class='far fa-calendar-alt'></i><span>Agenda</span></a>
+        <a class="nav-link" href=""><i class='far fa-calendar-alt'></i><span>Acara</span></a>
     </li>
 </ul>

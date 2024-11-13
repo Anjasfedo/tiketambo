@@ -29,7 +29,7 @@ class AcaraController extends Controller
      */
     public function index()
     {
-        $acaras = Acara::all();
+        $acaras = Acara::paginate(10);
         return view('acaras.index', compact('acaras'));
     }
 

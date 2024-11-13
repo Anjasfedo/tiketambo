@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@section('title')
-    lorem
-@endsection
-
 @section('content')
     <section class="section">
         <div class="section-header">
