@@ -1,41 +1,62 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto py-8">
-    <h1 class="text-2xl font-bold mb-4">Tikets for Acara: {{ $acara->nama }}</h1>
-
-    <div class="bg-white p-6 rounded shadow-md">
-        <p><strong>Lokasi:</strong> {{ $acara->lokasi }}</p>
-        <p><strong>Tanggal:</strong> {{ $acara->tanggal }}</p>
+<section class="section">
+    <div class="section-header">
+        <h1>Tikets for Acara: {{ $acara->nama }}</h1>
     </div>
 
-    <div class="mt-8 bg-white p-6 rounded shadow-md">
-        <h2 class="text-xl font-bold mb-4">Daftar Tiket</h2>
+    <div class="section-body">
+        <div class="row">
+            <div class="col-12">
+                <!-- Event Information Card -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Acara Details</h4>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Lokasi:</strong> {{ $acara->lokasi }}</p>
+                        <p><strong>Tanggal:</strong> {{ $acara->tanggal }}</p>
+                    </div>
+                </div>
 
-        <table class="min-w-full">
-            <thead>
-                <tr>
-                    <th class="py-2 px-4 border-b">Nama Tiket</th>
-                    <th class="py-2 px-4 border-b">Harga</th>
-                    <th class="py-2 px-4 border-b">Stok Tersedia</th>
-                    <th class="py-2 px-4 border-b">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($acara->tiket as $tiket)
-                    <tr class="hover:bg-gray-100">
-                        <td class="py-2 px-4 border-b">{{ $tiket->nama }}</td>
-                        <td class="py-2 px-4 border-b">{{ number_format($tiket->harga_tiket, 2) }}</td>
-                        <td class="py-2 px-4 border-b">{{ $tiket->stok_tiket }}</td>
-                        <td class="py-2 px-4 border-b">
-                            <a href="{{ route('admin.acaras.sales', $tiket->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">
-                                Show Sales
-                            </a>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+                <!-- Ticket List Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Daftar Tiket</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Nama Tiket</th>
+                                        <th>Harga</th>
+                                        <th>Stok Tersedia</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($acara->tiket as $tiket)
+                                        <tr>
+                                            <td>{{ $tiket->nama }}</td>
+                                            <td>Rp {{ number_format($tiket->harga, 2) }}</td>
+                                            <td>{{ $tiket->stok }}</td>
+                                            <td>
+                                                <a href="{{ route('admin.acaras.sales', $tiket->id) }}" class="btn btn-primary btn-sm">
+                                                    Show Sales
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
-</div>
+</section>
 @endsection

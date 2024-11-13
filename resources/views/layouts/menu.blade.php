@@ -10,6 +10,6 @@
     </li>
     <li class="menu-header">Penjualan</li>
     <li>
-        <a class="nav-link" href=""><i class='far fa-calendar-alt'></i><span>Acara</span></a>
+        <a class="nav-link" href="{{ route('admin.acaras.index') }}"><i class='far fa-calendar-alt'></i><span>Acara</span></a>
     </li>
 </ul>
