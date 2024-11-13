@@ -11,7 +11,8 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <button type="button" class="btn btn-primary" onclick="location.href='{{ route('acaras.create') }}'">Create Acara</button>
+                        <button type="button" class="btn btn-primary"
+                            onclick="location.href='{{ route('acaras.create') }}'">Create Acara</button>
                     </div>
                 </div>
             </div>
@@ -61,9 +62,11 @@
                                                 <td class="text-center">
                                                     <div class="d-flex justify-content-center">
                                                         <a href="{{ route('acaras.show', $acara->id) }}"
-                                                            class="btn btn-info mx-1">Update</a>
+                                                            class="btn btn-info mx-1">Lihat</a>
+                                                        <a href="{{ route('acaras.edit', $acara->id) }}"
+                                                            class="btn btn-warning mx-1">Update</a>
                                                         <form action="{{ route('acaras.destroy', $acara->id) }}"
-                                                            method="POST">
+                                                            method="POST" class="delete-alertbox">
                                                             @csrf
                                                             @method('DELETE')
                                                             <input type="submit" class="btn btn-danger mx-1"

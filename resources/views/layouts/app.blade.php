@@ -95,7 +95,6 @@
         document.addEventListener("DOMContentLoaded", function() {
             document.addEventListener("submit", function(event) {
                 if (event.target && event.target.classList.contains("delete-alertbox")) {
-                    console.log("Submit event fired");
                     event.preventDefault();
                     const form = event.target; // Store the form that triggered the event
 
