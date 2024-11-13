@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Tiket;
 
 Route::get('/', function () {
-    return view('welcome');
+
+    $tikets = Tiket::with('acara')->where('stok_tiket', '>', 0)->get(); // Fetch tickets with available stock
+    return view('landing', compact('tikets'));
 });
 
 
