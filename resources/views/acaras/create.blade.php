@@ -42,9 +42,9 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="jam" class="form-label">Jam</label>
-                                <input type="time" name="jam" id="jam" class="form-control" value="{{ old('jam') }}" required>
-                                @error('jam')
+                                <label for="waktu" class="form-label">Waktu</label>
+                                <input type="time" name="waktu" id="waktu" class="form-control" value="{{ old('waktu') }}" required>
+                                @error('waktu')
                                     <div class="text-danger small">{{ $message }}</div>
                                 @enderror
                             </div>

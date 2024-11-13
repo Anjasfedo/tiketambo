@@ -50,7 +50,7 @@ class AcaraController extends Controller
             'nama' => 'required|string|max:255',
             'lokasi' => 'required|string|max:255',
             'tanggal' => 'required|date',
-            'jam' => 'required',
+            'waktu' => 'required',
             'deskripsi' => 'nullable|string',
             'gambar' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,pdf,docx|max:2048'  // Accept various file types
         ]);
@@ -95,7 +95,7 @@ class AcaraController extends Controller
             'nama' => 'required|string|max:255',
             'lokasi' => 'required|string|max:255',
             'tanggal' => 'required|date',
-            'jam' => 'required',
+            'waktu' => 'required',
             'deskripsi' => 'nullable|string',
             'gambar' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,pdf,docx|max:2048'  // Accept various file types
         ]);

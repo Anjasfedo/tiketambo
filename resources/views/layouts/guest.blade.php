@@ -40,6 +40,43 @@
     <script src="{{ asset('js/custom.js') }}"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+
+        // Check for the session success message and show it in a toast
+        @if (session('success'))
+            Toast.fire({
+                icon: "success",
+                title: "{{ session('success') }}"
+            });
+        @elseif (session('error'))
+            Toast.fire({
+                icon: "error",
+                title: "{{ session('error') }}"
+            });
+        @endif
+
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                Toast.fire({
+                    icon: "error",
+                    title: "{{ $error }}"
+                });
+            @endforeach
+        @endif
+    </script>
 </body>
 
 </html>

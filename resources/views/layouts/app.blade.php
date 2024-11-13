@@ -143,6 +143,15 @@
                 title: "{{ session('error') }}"
             });
         @endif
+
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                Toast.fire({
+                    icon: "error",
+                    title: "{{ $error }}"
+                });
+            @endforeach
+        @endif
     </script>
 
     @stack('scripts')
