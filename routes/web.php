@@ -62,7 +62,7 @@ Route::prefix('pembayaran')->group(function () {
     Route::post('/process/{penjualan}', [PembayaranController::class, 'processPayment'])->name('pembayaran.process');
 });
 
-Route::prefix('admin')->middleware(['auth'])->group(function () {
+Route::prefix('penjualan')->middleware(['auth'])->group(function () {
     Route::get('/acaras', [AcaraController::class, 'adminIndex'])->name('admin.acaras.index');
     Route::get('/acaras/{acara}/tikets', [AcaraController::class, 'showTickets'])->name('admin.acaras.tikets');
     Route::get('/tikets/{ticket}/sales', [AcaraController::class, 'showSales'])->name('admin.acaras.sales');
