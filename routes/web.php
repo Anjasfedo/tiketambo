@@ -13,15 +13,21 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Tiket;
 
 Route::get('/', function () {
+    return view('landing');
+})->name('landing');
 
-    $tikets = Tiket::with('acara')->where('stok_tiket', '>', 0)->get(); // Fetch tickets with available stock
+Route::get('/acaras', function() {
     $acaras = Acara::all();
-    return view('acaras', compact('tikets', 'acaras'));
-});
+    return view('acaras', compact( 'acaras'));
+})->name('acaras');
 
+Route::get('/acaras/{id}', function ($id) {
+    $acara = Acara::with('tiket')->find($id);
+    return view('acaras_show', compact('acara'));
+})->name('acaras_show');
 
 Route::get('/dashboard', function () {
-    $tikets = Tiket::with('acara')->where('stok_tiket', '>', 0)->get(); // Fetch tickets with available stock
+    $tikets = Tiket::with('acara')->where('stok', '>', 0)->get(); // Fetch tickets with available stock
     return view('dashboard', compact('tikets'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -34,7 +40,7 @@ Route::middleware('auth')->group(function () {
 
 //
 
-Route::resource('acaras', AcaraController::class);
+Route::resource('/admin/acaras', AcaraController::class);
 
 Route::prefix('acaras/{acara}')->group(function () {
     Route::resource('tikets', TiketController::class)->except(['index']);

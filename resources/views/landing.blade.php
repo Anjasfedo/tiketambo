@@ -4,23 +4,16 @@
 @section('content')
     <section class="min-h-screen flex flex-col px-4 ">
         <div class="flex flex-col flex-1 max-w-[1400px] mx-auto w-full">
-            <header class="flex flex-col relative z-20">
-                <div class="max-w-[1400px] mx-auto w-full flex items-center justify-between p-4 py-6"><a href="/">
-                        <h1 class="font-semibold">Tiket <span class="text-indigo-400"
-                                data-svelte-h="svelte-11m9ge5">Tiket</span></h1>
-                    </a> <button class="md:hidden grid place-items-center"><i class="fa-solid fa-bars"></i></button>
-                    <nav class="hidden md:flex items-center gap-4 lg:gap-6"><a href="#product"
-                            class="duration-200 hover:text-indigo-400 cursor-pointer"
-                            data-svelte-h="svelte-1sb72ps">Acara</a> <button class="specialButton"
-                            data-svelte-h="svelte-141y5lp">Masuk</button></nav>
-                </div>
-            </header><!--<Header>-->
+            @include('partials.header')
             <div class="flex flex-col gap-10 flex-1 items-center justify-center pb-10 md:pb-14">
-               <h2 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl max-w-[1200px] mx-auto w-full text-center font-semibold">
-                    <span class="text-indigo-400">Pesan</span> Tiket untuk<br> <span class="text-slate-600 line-through">Acara</span> Anda
+                <h2
+                    class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl max-w-[1200px] mx-auto w-full text-center font-semibold">
+                    <span class="text-indigo-400">Pesan</span> Tiket untuk<br> <span
+                        class="text-slate-600 line-through">Acara</span> Anda
                     Sekarang
                 </h2>
-                <p class="text-xl sm:text-2xl md:text-3xl text-center max-w-[1000px] mx-auto w-full">Rasakan momen tak terlupakan dengan tiket eksklusif untuk konser, teater, dan acara lainnya.</p>
+                <p class="text-xl sm:text-2xl md:text-3xl text-center max-w-[1000px] mx-auto w-full">Rasakan momen tak
+                    terlupakan dengan tiket eksklusif untuk konser, teater, dan acara lainnya.</p>
                 <div class="flex items-center gap-4"><button class="specialButton  ">
                         <p class="text-base sm:text-lg md:text-xl" data-svelte-h="svelte-1am8dmy">Jelajahi Acara</p>
                     </button> <button class="specialButtonDark">
@@ -67,9 +60,11 @@
                     <div class="flex flex-col gap-8 md:gap-10 pt-10  ">
                         <h4
                             class="text-2xl sm:text-3xl md:text-4xl max-w-[1000px] w-full font-medium pr-10 relative after:absolute after:top-full after:left-0 after:w-1/5 after:h-1.5 after:mt-1 after:bg-slate-900">
-                            Pemesanan Tiket <span class="text-indigo-400" data-svelte-h="svelte-x65yem">Aman</span> & <span class="text-indigo-400" data-svelte-h="svelte-x65yem">Praktis</span>
+                            Pemesanan Tiket <span class="text-indigo-400" data-svelte-h="svelte-x65yem">Aman</span> & <span
+                                class="text-indigo-400" data-svelte-h="svelte-x65yem">Praktis</span>
                         </h4>
-                        <p>Nikmati pengalaman pemesanan tiket yang mudah dengan checkout aman, pilihan pembayaran fleksibel, dan konfirmasi instan.</p>
+                        <p>Nikmati pengalaman pemesanan tiket yang mudah dengan checkout aman, pilihan pembayaran fleksibel,
+                            dan konfirmasi instan.</p>
                         <div class="flex flex-col gap-3">
                             <div class="flex gap-2 items-center">
                                 <div
@@ -122,21 +117,24 @@
                         <div class="absolute top-0 left-0 w-1/3 h-[1px] bg-slate-950 -translate-x-4"></div>
                         <div class="absolute top-0 left-0 h-2/3 w-[1px] bg-slate-950 -translate-y-4"></div>
                         <h4 class="text-lg sm:text-xl md:text-2xl">Acara apa saja yang bisa saya pesan tiketnya?</h4>
-                        <p class="p-2">Kami menawarkan tiket untuk berbagai acara, termasuk konser, pertunjukan teater, olahraga, dan
+                        <p class="p-2">Kami menawarkan tiket untuk berbagai acara, termasuk konser, pertunjukan teater,
+                            olahraga, dan
                             festival.</p>
                     </div>
                     <div class="flex flex-col gap-2 text-left max-w-[800px] w-full mx-auto relative p-4 px-6">
                         <div class="absolute top-0 left-0 w-1/3 h-[1px] bg-slate-950 -translate-x-4"></div>
                         <div class="absolute top-0 left-0 h-2/3 w-[1px] bg-slate-950 -translate-y-4"></div>
                         <h4 class="text-lg sm:text-xl md:text-2xl">Bagaimana cara membeli tiket?</h4>
-                        <p class="p-2">Pilih acara Anda, pilih opsi tempat duduk yang diinginkan, dan lanjutkan ke checkout untuk
+                        <p class="p-2">Pilih acara Anda, pilih opsi tempat duduk yang diinginkan, dan lanjutkan ke
+                            checkout untuk
                             pembelian yang cepat dan aman.</p>
                     </div>
                     <div class="flex flex-col gap-2 text-left max-w-[800px] w-full mx-auto relative p-4 px-6">
                         <div class="absolute top-0 left-0 w-1/3 h-[1px] bg-slate-950 -translate-x-4"></div>
                         <div class="absolute top-0 left-0 h-2/3 w-[1px] bg-slate-950 -translate-y-4"></div>
                         <h4 class="text-lg sm:text-xl md:text-2xl">Apakah saya bisa mengembalikan tiket saya?</h4>
-                        <p class="p-2">Kebijakan pengembalian dana bervariasi tergantung acara. Silakan lihat detail acara untuk syarat
+                        <p class="p-2">Kebijakan pengembalian dana bervariasi tergantung acara. Silakan lihat detail
+                            acara untuk syarat
                             dan ketentuan pengembalian dana.</p>
                     </div>
                 </div>
