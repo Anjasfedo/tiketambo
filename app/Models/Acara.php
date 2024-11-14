@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Acara extends Model
 {
@@ -19,5 +20,14 @@ class Acara extends Model
     public function tiket()
     {
         return $this->hasMany(Tiket::class);
+    }
+
+    public function getGambarUrlAttribute()
+    {
+        if ($this->gambar && Storage::exists('public/' . $this->gambar)) {
+            return url('storage/' . $this->gambar);
+        }
+
+        return $this->gambar;
     }
 }

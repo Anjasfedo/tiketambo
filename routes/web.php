@@ -8,13 +8,15 @@ use App\Http\Controllers\TiketController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\UserTiketController;
 use App\Http\Controllers\WithdrawalController;
+use App\Models\Acara;
 use Illuminate\Support\Facades\Route;
 use App\Models\Tiket;
 
 Route::get('/', function () {
 
     $tikets = Tiket::with('acara')->where('stok_tiket', '>', 0)->get(); // Fetch tickets with available stock
-    return view('landing', compact('tikets'));
+    $acaras = Acara::all();
+    return view('acaras', compact('tikets', 'acaras'));
 });
 
 
@@ -92,4 +94,4 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
