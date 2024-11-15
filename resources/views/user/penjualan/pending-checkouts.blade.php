@@ -1,60 +1,55 @@
-@extends('layouts.app')
+@extends('layouts.landing')
+
 
 @section('content')
-<div class="container mx-auto py-8">
-    <h1 class="text-2xl font-bold mb-4">Daftar Checkout yang Belum Dibayar</h1>
+    <section class="min-h-screen flex flex-col px-4 ">
+        <div class="flex flex-col flex-1 max-w-[1400px] mx-auto w-full">
+            @include('partials.header')
+            <div class="lg:-mx-6 lg:flex lg:items-center">
+                <div class="mt-8 lg:px-20 lg:mt-0">
+                    @if ($pendingCheckouts->isEmpty())
+                        <p class="text-gray-700">Anda tidak memiliki pesanan yang belum dibayar.</p>
+                    @else
+                        <div>
+                            <div class="px-8 py-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm font-light text-gray-600 dark:text-gray-400">Mar 10, 2019</span>
+                                    <a class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-300 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500"
+                                        tabindex="0" role="button">Design</a>
+                                </div>
 
-    @if($pendingCheckouts->isEmpty())
-        <p class="text-gray-700">Anda tidak memiliki pesanan yang belum dibayar.</p>
-    @else
-        @if(session('success'))
-            <div class="bg-green-100 text-green-700 p-4 rounded mb-4">
-                {{ session('success') }}
+                                <div class="mt-2">
+                                    <a href="#"
+                                        class="text-xl font-bold text-gray-700 dark:text-white hover:text-gray-600 dark:hover:text-gray-200 hover:underline"
+                                        tabindex="0" role="link">Accessibility tools for designers and developers</a>
+                                    <p class="mt-2 text-gray-600 dark:text-gray-300">Lorem ipsum dolor sit, amet consectetur
+                                        adipisicing elit. Tempora expedita dicta totam aspernatur doloremque. Excepturi iste
+                                        iusto eos enim reprehenderit nisi, accusamus delectus nihil quis facere in modi
+                                        ratione
+                                        libero!</p>
+                                </div>
+
+                                <div class="flex items-center justify-between mt-4">
+                                    <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline"
+                                        tabindex="0" role="link">Read more</a>
+
+                                    <div class="flex items-center">
+                                        <img class="hidden object-cover w-10 h-10 mx-4 rounded-full sm:block"
+                                            src="https://images.unsplash.com/photo-1502980426475-b83966705988?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=40&q=80"
+                                            alt="avatar">
+                                        <a class="font-bold text-gray-700 cursor-pointer dark:text-gray-200" tabindex="0"
+                                            role="link">Khatab wedaa</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </div>
             </div>
-        @endif
-
-        <div class="bg-white p-6 rounded shadow-md">
-            <table class="min-w-full">
-                <thead>
-                    <tr>
-                        <th class="py-2 px-4 border-b">Nomor Pesanan</th>
-                        <th class="py-2 px-4 border-b">Nama Tiket</th>
-                        <th class="py-2 px-4 border-b">Jumlah Tiket</th>
-                        <th class="py-2 px-4 border-b">Total Harga</th>
-                        <th class="py-2 px-4 border-b">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($pendingCheckouts as $checkout)
-                        @php
-                            $jumlah_tiket = $checkout->pembayaran->jumlah_tiket ?? 1;
-                            $total_harga = $checkout->pembayaran->jumlah_bayar ?? $checkout->tiket->harga_tiket * $jumlah_tiket;
-                        @endphp
-                        <tr class="hover:bg-gray-100">
-                            <td class="py-2 px-4 border-b">{{ $checkout->nomor_pesanan }}</td>
-                            <td class="py-2 px-4 border-b">{{ $checkout->tiket->nama }}</td>
-                            <td class="py-2 px-4 border-b">{{ $jumlah_tiket }}</td>
-                            <td class="py-2 px-4 border-b">{{ number_format($total_harga, 2) }}</td>
-                            <td class="py-2 px-4 border-b flex space-x-2">
-                                <!-- Checkout Button -->
-                                <a href="{{ route('pembayaran.checkout', $checkout->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">
-                                    Checkout
-                                </a>
-
-                                <!-- Cancel Button -->
-                                <form action="{{ route('penjualan.cancel', $checkout->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">
-                                        Cancel
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
         </div>
-    @endif
-</div>
+    </section><!--<SectionWrap>--><!--<Hero>-->
+
+    <section class="min-h-screen flex flex-col px-4 ">
+
+    </section>
 @endsection

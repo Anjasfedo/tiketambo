@@ -1,65 +1,86 @@
-@extends('layouts.app')
+@extends('layouts.landing')
 
 @section('content')
-<div class="container mx-auto py-8">
-    <h1 class="text-2xl font-bold mb-4">Pesan Tiket: {{ $tiket->nama }}</h1>
+<section class="min-h-screen flex flex-col px-4">
+    <div class="flex flex-col flex-1 max-w-[1200px] mx-auto w-full">
+        @include('partials.header')
 
-    <!-- Event and Ticket Information -->
-    <div class="bg-white p-6 rounded shadow-md mb-6">
-        <h2 class="text-xl font-semibold mb-2">Informasi Acara</h2>
-        <p><strong>Nama Acara:</strong> {{ $tiket->acara->nama }}</p>
-        <p><strong>Lokasi:</strong> {{ $tiket->acara->lokasi }}</p>
-        <p><strong>Tanggal:</strong> {{ $tiket->acara->tanggal }}</p>
-        <p><strong>Jam:</strong> {{ $tiket->acara->jam }}</p>
+        <div class="py-8">
+            <h1 class="text-3xl font-bold text-center text-indigo-600 mb-6">Pesan Tiket: {{ $tiket->nama }}</h1>
 
-        <h2 class="text-xl font-semibold mt-4 mb-2">Informasi Tiket</h2>
-        <p><strong>Harga Tiket:</strong> {{ number_format($tiket->harga_tiket, 2) }}</p>
-        <p><strong>Stok Tiket Tersedia:</strong> {{ $tiket->stok_tiket }}</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                <!-- Event and Ticket Information -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Informasi Acara</h2>
+                    <ul class="text-gray-700 space-y-2">
+                        <li><strong>Nama Acara:</strong> {{ $tiket->acara->nama }}</li>
+                        <li><strong>Lokasi:</strong> {{ $tiket->acara->lokasi }}</li>
+                        <li><strong>Tanggal:</strong> {{ $tiket->acara->tanggal }}</li>
+                        <li><strong>Jam:</strong> {{ $tiket->acara->waktu }}</li>
+                    </ul>
+
+                    <h2 class="text-2xl font-semibold mt-6 mb-4 text-gray-800">Informasi Tiket</h2>
+                    <ul class="text-gray-700 space-y-2">
+                        <li><strong>Harga Tiket:</strong> Rp{{ number_format($tiket->harga, 2) }}</li>
+                        <li><strong>Stok Tersedia:</strong> {{ $tiket->stok }}</li>
+                    </ul>
+                </div>
+
+                <!-- Ticket Order Form -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Pesan Tiket</h2>
+
+                    @if ($errors->any())
+                        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+                            <strong>Terjadi kesalahan pada input:</strong>
+                            <ul class="mt-2 list-disc list-inside">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <form action="{{ route('penjualan.store', $tiket->id) }}" method="POST">
+                        @csrf
+
+                        <!-- Ticket Quantity -->
+                        <div class="mb-4">
+                            <label for="jumlah_tiket" class="block text-gray-700 font-medium">Jumlah Tiket</label>
+                            <input type="number" name="jumlah_tiket" id="jumlah_tiket"
+                                class="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-200 focus:outline-none"
+                                value="{{ old('jumlah_tiket', 1) }}" min="1" max="{{ $tiket->stok_tiket }}" required>
+                            <p class="text-sm text-gray-600 mt-1">Stok tersedia: {{ $tiket->stok_tiket }}</p>
+                            @error('jumlah_tiket')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <!-- Payment Method Selection -->
+                        <div class="mb-4">
+                            <label for="metode_pembayaran" class="block text-gray-700 font-medium">Metode Pembayaran</label>
+                            <select name="metode_pembayaran" id="metode_pembayaran"
+                                class="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-200 focus:outline-none"
+                                required>
+                                <option value="">Pilih metode pembayaran</option>
+                                <option value="credit_card" {{ old('metode_pembayaran') == 'credit_card' ? 'selected' : '' }}>Kartu Kredit</option>
+                                <option value="bank_transfer" {{ old('metode_pembayaran') == 'bank_transfer' ? 'selected' : '' }}>Transfer Bank</option>
+                                <option value="ewallet" {{ old('metode_pembayaran') == 'ewallet' ? 'selected' : '' }}>E-Wallet</option>
+                            </select>
+                            @error('metode_pembayaran')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit"
+                            class="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 rounded-lg transition duration-200">
+                            Pesan Tiket
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-
-    @if ($errors->any())
-        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-            <strong>Terjadi kesalahan pada input:</strong>
-            <ul class="mt-2 list-disc list-inside">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    <!-- Ticket Order Form -->
-    <form action="{{ route('penjualan.store', $tiket->id) }}" method="POST" class="bg-white p-6 rounded shadow-md">
-        @csrf
-
-        <!-- Ticket Quantity -->
-        <div class="mb-4">
-            <label for="jumlah_tiket" class="block text-gray-700">Jumlah Tiket</label>
-            <input type="number" name="jumlah_tiket" id="jumlah_tiket" class="w-full p-2 border border-gray-300 rounded" value="{{ old('jumlah_tiket', 1) }}" min="1" max="{{ $tiket->stok_tiket }}" required>
-            <p class="text-gray-600 mt-2">Stok tersedia: {{ $tiket->stok_tiket }}</p>
-            @error('jumlah_tiket')
-                <span class="text-red-500 text-sm">{{ $message }}</span>
-            @enderror
-        </div>
-
-        <!-- Payment Method Selection -->
-        <div class="mb-4">
-            <label for="metode_pembayaran" class="block text-gray-700">Metode Pembayaran</label>
-            <select name="metode_pembayaran" id="metode_pembayaran" class="w-full p-2 border border-gray-300 rounded" required>
-                <option value="">Pilih metode pembayaran</option>
-                <option value="credit_card" {{ old('metode_pembayaran') == 'credit_card' ? 'selected' : '' }}>Kartu Kredit</option>
-                <option value="bank_transfer" {{ old('metode_pembayaran') == 'bank_transfer' ? 'selected' : '' }}>Transfer Bank</option>
-                <option value="ewallet" {{ old('metode_pembayaran') == 'ewallet' ? 'selected' : '' }}>E-Wallet</option>
-            </select>
-            @error('metode_pembayaran')
-                <span class="text-red-500 text-sm">{{ $message }}</span>
-            @enderror
-        </div>
-
-        <!-- Submit Button -->
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Pesan Tiket
-        </button>
-    </form>
-</div>
+</section>
 @endsection

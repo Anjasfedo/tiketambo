@@ -47,7 +47,7 @@
                             <h4 class="mt-2 text-3xl font-semibold text-gray-100">{{ $tiket->harga }} Rupiah</h4>
 
                             <p class="mt-4 mb-8 text-gray-300">{{ $tiket->stok }} Tiket Tersisa</p>
-                            <a href=""
+                            <a href="{{ route('penjualan.create', $tiket->id) }}"
                                 class="w-full px-4 py-2 mt-10 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
                                 Beli Tiket
                             </a>
