@@ -31,7 +31,7 @@ class UserTiketController extends Controller
     public function releasedTickets()
     {
         // Retrieve all tickets marked as 'for_sale'
-        $releasedTickets = UserTiket::where('status', 'for_sale')
+        $releasedTickets = UserTiket::where('status', UserTiket::STATUS_FOR_SALE)
             ->with('tiket', 'user')
             ->get();
 

@@ -14,6 +14,11 @@ class Pembayaran extends Model
     const METODE_CREDIT_CARD = 'credit_card';
     const METODE_BANK_TRANSFER = 'bank_transfer';
 
+    const PAYMENT_METHODS = [
+        self::METODE_CREDIT_CARD,
+        self::METODE_BANK_TRANSFER
+    ];
+
     public function penjualan()
     {
         return $this->belongsTo(Penjualan::class);

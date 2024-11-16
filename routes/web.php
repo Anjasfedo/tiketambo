@@ -9,6 +9,7 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\UserTiketController;
 use App\Http\Controllers\WithdrawalController;
 use App\Models\Acara;
+use App\Models\UserTiket;
 use Illuminate\Support\Facades\Route;
 use App\Models\Tiket;
 
@@ -31,6 +32,17 @@ Route::get('/acaras/{id}', function ($id) {
     $acara = Acara::with('tiket')->find($id);
     return view('acaras_show', compact('acara'));
 })->name('acaras_show');
+
+Route::get('/tikets', function () {
+    return view(
+        'tikets',
+        [
+            'tikets' => UserTiket::where('status', UserTiket::STATUS_FOR_SALE)
+            ->with('tiket', 'user')
+            ->paginate(8),
+        ]
+    );
+})->name('tikets');
 
 Route::get('/dashboard', function () {
     $tikets = Tiket::with('acara')->where('stok', '>', 0)->get(); // Fetch tickets with available stock
@@ -90,6 +102,7 @@ Route::post('user/tickets/{id}/resell', [UserTiketController::class, 'resell'])-
 
 Route::get('/released-tickets', [UserTiketController::class, 'releasedTickets'])->name('released-tickets');
 
+Route::get('penjualan/resale/{userTiketId}', [PenjualanController::class, 'resaleShow'])->name('penjualan.resaleShow');
 Route::post('penjualan/resale/{userTiketId}', [PenjualanController::class, 'resaleStore'])->name('penjualan.resale');
 
 

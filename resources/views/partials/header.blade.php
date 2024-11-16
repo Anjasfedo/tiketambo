@@ -19,6 +19,8 @@
             @endif
             <a href="{{ route('acaras') }}" class="duration-200 hover:text-indigo-400 cursor-pointer"
                 data-svelte-h="svelte-1sb72ps">Acara</a>
+            <a href="{{ route('tikets') }}" class="duration-200 hover:text-indigo-400 cursor-pointer"
+                data-svelte-h="svelte-1sb72ps">Pasar Tiket</a>
             <a href="{{ route('login') }}" class="specialButton" data-svelte-h="svelte-141y5lp">Masuk</a>
         </nav>
     </div>

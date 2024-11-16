@@ -139,23 +139,33 @@ class PenjualanController extends Controller
 
         // Update the ticket record for resale with a new sale price and status
         $penjualan->update([
-            'status' => 'pending',
+            'status' => Penjualan::STATUS_PENDING,
             'seller_id' => Auth::id(),
-            'price' => $request->price,
         ]);
 
         return redirect()->back()->with('success', 'Tiket telah berhasil dipasang untuk dijual.');
     }
 
+    //
+
+    public function resaleShow(Request $request, $userTiketId)
+    {
+        $userTiket = UserTiket::where('id', $userTiketId)
+            ->where('status', UserTiket::STATUS_FOR_SALE)
+            ->firstOrFail();
+
+        return view('user.penjualan.resale', compact('userTiket'));
+    }
+
     public function resaleStore(Request $request, $userTiketId)
     {
         $userTiket = UserTiket::where('id', $userTiketId)
-            ->where('status', 'for_sale')
+            ->where('status', UserTiket::STATUS_FOR_SALE)
             ->firstOrFail();
 
         // Validate the resale price
         $validated = $request->validate([
-            'metode_pembayaran' => 'required|string|max:50', // Validate payment method
+            'metode_pembayaran' => 'required|string|max:50|in:'. implode(',', Pembayaran::PAYMENT_METHODS), // Validate payment method
         ]);
 
         $nomor_pesanan = 'ORD-RESALE-' . strtoupper(uniqid());
@@ -164,11 +174,10 @@ class PenjualanController extends Controller
         $resalePenjualan = Penjualan::create([
             'nomor_pesanan' => $nomor_pesanan,
             'tiket_id' => $userTiket->tiket_id,
-            'status' => 'pending',
+            'status' => Penjualan::STATUS_PENDING,
             'tanggal_pemesanan' => now(),
             'user_id' => Auth::id(),
             'seller_id' => $userTiket->user_id,
-            'is_resale' => true, // Resale transaction
         ]);
 
         // Use resale price for jumlah_bayar
@@ -176,7 +185,7 @@ class PenjualanController extends Controller
             'penjualan_id' => $resalePenjualan->id,
             'metode_pembayaran' => $validated['metode_pembayaran'],
             'jumlah_tiket' => 1,
-            'jumlah_bayar' => $userTiket->price, // Resale price
+            'jumlah_bayar' => $userTiket->harga_jual, // Resale price
             'tanggal_pembayaran' => null,
         ]);
 
