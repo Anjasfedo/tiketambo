@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pembayarans', function (Blueprint $table) {
             $table->id();
-            $table->enum('metode_pembayaran', ['credit_card', 'bank_transfer', 'paypal']); // Ubah menjadi enum
+            $table->enum('metode_pembayaran', ['credit_card', 'bank_transfer']); // Ubah menjadi enum
             $table->integer('jumlah_tiket');
             $table->decimal('jumlah_bayar', 10, 2);
             $table->date('tanggal_pembayaran')->nullable();

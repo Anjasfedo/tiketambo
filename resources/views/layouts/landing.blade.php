@@ -1486,25 +1486,40 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
         <main class="flex flex-col">
             @yield('content')
         </main><!--<+page>-->
-        <footer class="py-16 sm:py-20 md:py-24 px-4 md:px-8">
+        <footer class="py-16 sm:py-20 md:py-24 px-4 md:px-8 bg-indigo-900">
             <div class="max-w-[1200px] mx-auto w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 text-base">
                 <div class="flex flex-col gap-4 md:col-span-2">
-                    <h1 class="font-semibold">Gimmie <span class="text-indigo-400"
-                            data-svelte-h="svelte-11m9ge5">Gym</span></h1>
-                    <p data-svelte-h="svelte-5ipm2m">2023 GIMMIE GYM LTD. All rights reserved.</p>
+                    <h1 class="font-semibold">Tiket <span class="text-indigo-400"
+                            data-svelte-h="svelte-11m9ge5">Tiket</span></h1>
+                    <p data-svelte-h="svelte-5ipm2m">2024 Tiket LTD. All rights reserved.</p>
                 </div>
                 <div class="flex flex-col gap-4">
-                    <p class="font-bold poppins text-base sm:text-lg" data-svelte-h="svelte-1iqyksc">Support</p> <a
+                    <p class="font-bold poppins text-base sm:text-lg" data-svelte-h="svelte-1iqyksc">Dukungan</p>
+                    <a
                         href="" target="_blank" class="cursor-pointer hover:text-indigo-400 duration-200"
-                        data-svelte-h="svelte-rhjjr2">Contact Us</a>
-                </div>
-                <div class="flex flex-col gap-4">
-                    <p class="font-bold poppins text-base sm:text-lg" data-svelte-h="svelte-1f54018">Research</p> <a
+                        data-svelte-h="svelte-rhjjr2">Pusat Bantuan</a>
+                    <a
                         href="" target="_blank" class="cursor-pointer hover:text-indigo-400 duration-200"
-                        data-svelte-h="svelte-o3xkgw">Read Science</a>
+                        data-svelte-h="svelte-rhjjr2">Hubungi Kami</a>
+                    <a
+                        href="" target="_blank" class="cursor-pointer hover:text-indigo-400 duration-200"
+                        data-svelte-h="svelte-rhjjr2">Pertanyaan Umum</a>
+
                 </div>
                 <div class="flex flex-col gap-4">
-                    <p class="font-bold poppins text-base sm:text-lg" data-svelte-h="svelte-qe7on4">Follow us</p> <a
+                    <p class="font-bold poppins text-base sm:text-lg" data-svelte-h="svelte-1f54018">Kebijakan</p>
+                    <a
+                        href="" target="_blank" class="cursor-pointer hover:text-indigo-400 duration-200"
+                        data-svelte-h="svelte-o3xkgw">Syarat dan Ketentuan</a>
+                    <a
+                        href="" target="_blank" class="cursor-pointer hover:text-indigo-400 duration-200"
+                        data-svelte-h="svelte-o3xkgw">Kebijakan Privasi</a>
+                    <a
+                        href="" target="_blank" class="cursor-pointer hover:text-indigo-400 duration-200"
+                        data-svelte-h="svelte-o3xkgw">Kebijakan Pengembalian Dana</a>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <p class="font-bold poppins text-base sm:text-lg" data-svelte-h="svelte-qe7on4">Ikuti Kami</p> <a
                         href="" target="_blank" class="cursor-pointer hover:text-indigo-400 duration-200"><i
                             class="fa-brands fa-instagram pr-2"></i>Instagram</a> <a href="" target="_blank"
                         class="cursor-pointer hover:text-indigo-400 duration-200"><i

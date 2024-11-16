@@ -1,60 +1,90 @@
-@extends('layouts.app')
+@extends('layouts.landing')
 
 @section('content')
-    <div class="container mx-auto py-8">
-        <h1 class="text-2xl font-bold mb-4">Detail Penjualan Tiket</h1>
+    <section class="min-h-screen flex flex-col px-4">
+        <div class="flex flex-col flex-1 max-w-[1200px] mx-auto w-full">
+            @include('partials.header')
+            <div class="container mx-auto py-12 px-6">
+                <!-- Header -->
+                <h1 class="text-3xl font-extrabold text-center text-indigo-600 mb-8">Detail Penjualan Tiket</h1>
 
-        <div class="bg-white p-6 rounded shadow-md">
-            <p><strong>Nomor Pesanan:</strong> {{ $penjualan->nomor_pesanan }}</p>
-            <p><strong>Nama Tiket:</strong> {{ $penjualan->tiket->nama }}</p>
+                <!-- Sales Details Card -->
+                <div class="bg-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto">
+                    <!-- Order Information -->
+                    <div class="mb-6">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-2">Informasi Pesanan</h2>
+                        {{-- <ul class="space-y-2 text-gray-700">
+                            <li><strong>Nomor Pesanan:</strong> {{ $penjualan->nomor_pesanan }}</li>
+                            <li><strong>Nama Tiket:</strong> {{ $penjualan->tiket->nama }}</li>
+                            <li><strong>Jenis Penjualan:</strong>
+                                <span class="{{ $penjualan->is_resale ? 'text-yellow-600' : 'text-green-600' }}">
+                                    {{ $penjualan->adalah_resale}}
+                                </span>
+                            </li>
+                        </ul> --}}
+                    </div>
+                    {{-- @if ($penjualan->is_resale)
+                        <p><strong>Jenis Penjualan:</strong> Resale</p>
+                    @else
+                        <p><strong>Jenis Penjualan:</strong> Original</p>
+                    @endif --}}
 
-            @if ($penjualan->is_resale)
-                <p><strong>Jenis Penjualan:</strong> Resale</p>
-            @else
-                <p><strong>Jenis Penjualan:</strong> Original</p>
-            @endif
+                    @php
+                        // Determine total price based on resale status
+                        $jumlah_tiket = $penjualan->pembayaran->jumlah_tiket ?? 1;
+                        // For resale, use the resale payment amount directly
+                        $total_harga = $penjualan->pembayaran->jumlah_bayar;
 
-            @php
-                // Determine total price based on resale status
-                $jumlah_tiket = $penjualan->pembayaran->jumlah_tiket ?? 1;
+                        // Calculate the per-ticket price
+                        $harga_per_tiket = $total_harga / $jumlah_tiket;
+                    @endphp
 
-                // For resale, use the resale payment amount directly
-                $total_harga = $penjualan->pembayaran->jumlah_bayar;
+                    <!-- Pricing Information -->
+                    <div class="mb-6">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-2">Detail Harga</h2>
+                        <ul class="space-y-2 text-gray-700">
+                            <li><strong>Harga per Tiket:</strong> Rp{{ number_format($harga_per_tiket, 2) }}</li>
+                            <li><strong>Jumlah Tiket:</strong> {{ $jumlah_tiket }}</li>
+                            <li><strong>Total Harga:</strong> Rp{{ number_format($total_harga, 2) }}</li>
+                        </ul>
+                    </div>
 
-                // Calculate the per-ticket price
-                $harga_per_tiket = $total_harga / $jumlah_tiket;
-            @endphp
-
-            <p><strong>Harga per Tiket:</strong> {{ number_format($harga_per_tiket, 2) }}</p>
-            <p><strong>Jumlah Tiket:</strong> {{ $jumlah_tiket }}</p>
-            <p><strong>Total Harga:</strong> {{ number_format($total_harga, 2) }}</p>
-
-            @if ($penjualan->status === 'completed' && $penjualan->pembayaran)
-                <!-- Completed Payment Details -->
-                <p><strong>Metode Pembayaran:</strong> {{ ucfirst($penjualan->pembayaran->metode_pembayaran) }}</p>
-                <p><strong>Tanggal Pembayaran:</strong> {{ $penjualan->pembayaran->tanggal_pembayaran }}</p>
-                <p class="text-green-500 font-semibold">Pembayaran berhasil diselesaikan.</p>
-            @elseif($penjualan->status === 'pending')
-                <!-- Pending Payment Details -->
-                <p class="text-red-500"><strong>Pembayaran belum dilakukan.</strong></p>
-                <a href="{{ route('pembayaran.checkout', $penjualan->id) }}"
-                    class="mt-4 inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Proceed to Payment
-                </a>
-            @else
-                <!-- Any other status (e.g., canceled) -->
-                <p class="text-gray-500"><strong>Status:</strong> {{ ucfirst($penjualan->status) }}</p>
-            @endif
-
-            <p><strong>Status:</strong> {{ ucfirst($penjualan->status) }}</p>
-            <p><strong>Tanggal Pemesanan:</strong> {{ $penjualan->tanggal_pemesanan }}</p>
-
-            <div class="mt-4">
-                <a href="{{ route('dashboard') }}"
-                    class="inline-block bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-                    Kembali ke Dashboard
-                </a>
+                    <!-- Payment and Status -->
+                    <div class="mb-6">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-2">Status dan Pembayaran</h2>
+                        @if ($penjualan->status === App\Models\Penjualan::STATUS_COMPLETED && $penjualan->pembayaran)
+                            <ul class="space-y-2 text-gray-700">
+                                <li><strong>Metode Pembayaran:</strong>
+                                    {{ ucfirst($penjualan->pembayaran->metode_pembayaran) }}
+                                </li>
+                                <li><strong>Tanggal Pembayaran:</strong> {{ $penjualan->pembayaran->tanggal_pembayaran }}
+                                </li>
+                                <li class="text-green-600 font-bold">Pembayaran berhasil diselesaikan.</li>
+                            </ul>
+                        @elseif ($penjualan->status === App\Models\Penjualan::STATUS_PENDING)
+                            <p class="text-red-600 font-semibold">Pembayaran belum dilakukan.</p>
+                            <a href="{{ route('pembayaran.checkout', $penjualan->id) }}"
+                                class="inline-block mt-4 bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded">
+                                Lakukan Pembayaran
+                            </a>
+                        @else
+                            <p class="text-gray-500"><strong>Status:</strong> {{ ucfirst($penjualan->status) }}</p>
+                        @endif
+                    </div>
+                    <!-- Additional Info -->
+                    <div class="mb-6">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-2">Informasi Tambahan</h2>
+                        <ul class="space-y-2 text-gray-700">
+                            <li><strong>Status Pesanan:</strong> {{ ucfirst($penjualan->status) }}</li>
+                            <li><strong>Tanggal Pemesanan:</strong> {{ $penjualan->tanggal_pemesanan }}</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
+
+
         </div>
-    </div>
+
+
+    </section>
 @endsection

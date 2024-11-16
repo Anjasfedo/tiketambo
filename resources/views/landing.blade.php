@@ -14,12 +14,11 @@
                 </h2>
                 <p class="text-xl sm:text-2xl md:text-3xl text-center max-w-[1000px] mx-auto w-full">Rasakan momen tak
                     terlupakan dengan tiket eksklusif untuk konser, teater, dan acara lainnya.</p>
-                <div class="flex items-center gap-4"><button class="specialButton  ">
+                <div class="flex items-center gap-4">
+                    <a href="{{ route('acaras') }}" class="bg-indigo-400 text-white px-4 py-2 rounded-md shadow">
                         <p class="text-base sm:text-lg md:text-xl" data-svelte-h="svelte-1am8dmy">Jelajahi Acara</p>
-                    </button> <button class="specialButtonDark">
-                        <p class="text-base sm:text-lg md:text-xl" data-svelte-h="svelte-kg3svr">Mulai Sekarang →
-                        </p>
-                    </button></div><!--<Cta>-->
+                    </a>
+                </div><!--<Cta>-->
                 <div class="flex items-center justify-center gap-2 text-base">
                     <p data-svelte-h="svelte-yh8842">4.8</p>
                     <div class="grid place-items-center relative"><i class="fa-solid fa-star opacity-0"></i>
@@ -70,24 +69,24 @@
                                 <div
                                     class="grid place-items-center p-1.5 text-xs sm:text-sm aspect-square rounded-full border-[1.5px] bg-white border-solid border-green-300">
                                     <i class="fa-solid fa-bolt text-green-400"></i>
-                                </div> Pembayaran Fleksibel
+                                </div> Pembayaran Mudah
                             </div>
                             <div class="flex gap-2 items-center">
                                 <div
                                     class="grid place-items-center p-1.5 text-xs sm:text-sm aspect-square rounded-full border-[1.5px] bg-white border-solid border-green-300">
                                     <i class="fa-solid fa-bolt text-green-400"></i>
-                                </div> Konfirmasi Tiket Instan
+                                </div> Banyak Pilihan Tiket
                             </div>
                             <div class="flex gap-2 items-center">
                                 <div
                                     class="grid place-items-center p-1.5 text-xs sm:text-sm aspect-square rounded-full border-[1.5px] bg-white border-solid border-green-300">
                                     <i class="fa-solid fa-bolt text-green-400"></i>
-                                </div> Pengembalian Dana Mudah
+                                </div> Pemesanan Cepat
                             </div>
                         </div>
-                        <div class="flex items-center"><button class="specialButtonDark mr-auto font-semibold ">
+                        <div class="flex items-center"><a href="{{ route('acaras') }}" class="bg-indigo-400 text-white px-4 py-2 rounded-md shadow flex items-center gap-2 hover:bg-indigo-500 duration-200">
                                 <p data-svelte-h="svelte-jf3fm0">Mulai Pesan</p>
-                            </button></div>
+                            </a></div>
                     </div>
                     <div class="flex flex-col dropShadow overflow-hidden rounded-b-lg ">
                         <div class="rounded-t-xl h-8 sm:h-10 bg-white opacity-60 flex items-center gap-2">
@@ -129,24 +128,8 @@
                             checkout untuk
                             pembelian yang cepat dan aman.</p>
                     </div>
-                    <div class="flex flex-col gap-2 text-left max-w-[800px] w-full mx-auto relative p-4 px-6">
-                        <div class="absolute top-0 left-0 w-1/3 h-[1px] bg-slate-950 -translate-x-4"></div>
-                        <div class="absolute top-0 left-0 h-2/3 w-[1px] bg-slate-950 -translate-y-4"></div>
-                        <h4 class="text-lg sm:text-xl md:text-2xl">Apakah saya bisa mengembalikan tiket saya?</h4>
-                        <p class="p-2">Kebijakan pengembalian dana bervariasi tergantung acara. Silakan lihat detail
-                            acara untuk syarat
-                            dan ketentuan pengembalian dana.</p>
-                    </div>
                 </div>
             </div>
         </div>
     </section><!--<SectionWrap>--><!--<Faq>-->
-    <section class="py-14 md:py-20 flex flex-col gap-8 bg-[#181b34] text-white text-center items-center justify-center">
-        <h4 class="text-xl sm:text-2xl md:text-3xl">Jangan Lewatkan Kesempatan!</h4>
-        <p class="text-base sm:text-lg md:text-xl">Berlangganan untuk penawaran eksklusif dan notifikasi acara</p>
-        <div class="flex items-center gap-4">
-            <button class="specialButton">Hubungi Kami</button>
-            <button class="specialButtonDark">Mulai Sekarang →</button>
-        </div>
-    </section><!--<Conversion>-->
 @endsection

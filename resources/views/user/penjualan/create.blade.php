@@ -48,7 +48,7 @@
                         <div class="mb-4">
                             <label for="jumlah_tiket" class="block text-gray-700 font-medium">Jumlah Tiket</label>
                             <input type="number" name="jumlah_tiket" id="jumlah_tiket"
-                                class="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-200 focus:outline-none"
+                                class="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-200 focus:outline-none text-black"
                                 value="{{ old('jumlah_tiket', 1) }}" min="1" max="{{ $tiket->stok_tiket }}" required>
                             <p class="text-sm text-gray-600 mt-1">Stok tersedia: {{ $tiket->stok_tiket }}</p>
                             @error('jumlah_tiket')
@@ -60,12 +60,11 @@
                         <div class="mb-4">
                             <label for="metode_pembayaran" class="block text-gray-700 font-medium">Metode Pembayaran</label>
                             <select name="metode_pembayaran" id="metode_pembayaran"
-                                class="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-200 focus:outline-none"
+                                class="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-200 focus:outline-none text-black"
                                 required>
                                 <option value="">Pilih metode pembayaran</option>
-                                <option value="credit_card" {{ old('metode_pembayaran') == 'credit_card' ? 'selected' : '' }}>Kartu Kredit</option>
-                                <option value="bank_transfer" {{ old('metode_pembayaran') == 'bank_transfer' ? 'selected' : '' }}>Transfer Bank</option>
-                                <option value="ewallet" {{ old('metode_pembayaran') == 'ewallet' ? 'selected' : '' }}>E-Wallet</option>
+                                <option value="{{ App\Models\Pembayaran::METODE_CREDIT_CARD }}" {{ old('metode_pembayaran') == App\Models\Pembayaran::METODE_CREDIT_CARD ? 'selected' : '' }}>Kartu Kredit</option>
+                                <option value="{{ App\Models\Pembayaran::METODE_BANK_TRANSFER}}" {{ old('metode_pembayaran') == App\Models\Pembayaran::METODE_BANK_TRANSFER ? 'selected' : '' }}>Transfer Bank</option>
                             </select>
                             @error('metode_pembayaran')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -73,10 +72,12 @@
                         </div>
 
                         <!-- Submit Button -->
-                        <button type="submit"
-                            class="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 rounded-lg transition duration-200">
-                            Pesan Tiket
-                        </button>
+<button type="submit"
+    class="w-full !bg-indigo-500 text-white hover:bg-indigo-600 font-bold py-3 rounded-lg transition duration-200">
+    Pesan Tiket
+</button>
+
+
                     </form>
                 </div>
             </div>

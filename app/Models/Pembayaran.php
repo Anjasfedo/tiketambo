@@ -13,7 +13,6 @@ class Pembayaran extends Model
 
     const METODE_CREDIT_CARD = 'credit_card';
     const METODE_BANK_TRANSFER = 'bank_transfer';
-    const METODE_PAYPAL = 'paypal';
 
     public function penjualan()
     {

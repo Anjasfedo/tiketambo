@@ -16,9 +16,15 @@ Route::get('/', function () {
     return view('landing');
 })->name('landing');
 
-Route::get('/acaras', function() {
-    $acaras = Acara::all();
-    return view('acaras', compact( 'acaras'));
+Route::get('/acaras', function () {
+    $query = request()->input('search');
+    $acaras = Acara::when($query, function ($queryBuilder) use ($query) {
+        $queryBuilder->where('nama', 'like', '%' . $query . '%')
+            ->orWhere('lokasi', 'like', '%' . $query . '%')
+            ->orWhere('deskripsi', 'like', '%' . $query . '%');
+    })->paginate(20);
+
+    return view('acaras', compact('acaras'));
 })->name('acaras');
 
 Route::get('/acaras/{id}', function ($id) {
@@ -72,9 +78,12 @@ Route::prefix('penjualan')->middleware(['auth'])->group(function () {
 
 Route::post('withdrawals/request', [WithdrawalController::class, 'request'])->name('withdrawals.request');
 
-// Ticket Sales (Penjualan)
-Route::post('penjualan/store/{tiket}', [PenjualanController::class, 'store'])->name('penjualan.store');
-Route::post('penjualan/{penjualan}/resell', [PenjualanController::class, 'resell'])->name('penjualan.resell');
+Route::middleware('auth')->group(function () {
+
+    // Ticket Sales (Penjualan)
+    Route::post('penjualan/store/{tiket}', [PenjualanController::class, 'store'])->name('penjualan.store');
+    Route::post('penjualan/{penjualan}/resell', [PenjualanController::class, 'resell'])->name('penjualan.resell');
+});
 
 Route::get('user/tickets', [UserTiketController::class, 'index'])->name('user.tickets.index');
 Route::post('user/tickets/{id}/resell', [UserTiketController::class, 'resell'])->name('user.tickets.resell');

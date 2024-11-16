@@ -22,7 +22,7 @@ class PenjualanController extends Controller
         $tiket = Tiket::findOrFail($tiket_id);
 
         $validated = $request->validate([
-            'jumlah_tiket' => 'required|integer|min:1|max:' . $tiket->stok_tiket,
+            'jumlah_tiket' => 'required|integer|min:1|max:' . $tiket->stok,
             'metode_pembayaran' => 'required|string|max:50',  // Validate payment method
         ]);
 
@@ -35,11 +35,10 @@ class PenjualanController extends Controller
         $penjualan = Penjualan::create([
             'nomor_pesanan' => $nomor_pesanan,
             'tiket_id' => $tiket->id,
-            'status' => 'pending',
+            'status' => Penjualan::STATUS_PENDING,
             'tanggal_pemesanan' => now(),
             'user_id' => Auth::id(),
             'seller_id' => $seller_id, // Set seller
-            'is_resale' => false, // New: Original sale
         ]);
 
         // Use harga_tiket for jumlah_bayar
@@ -47,12 +46,12 @@ class PenjualanController extends Controller
             'penjualan_id' => $penjualan->id,
             'metode_pembayaran' => $validated['metode_pembayaran'],
             'jumlah_tiket' => $validated['jumlah_tiket'],
-            'jumlah_bayar' => $tiket->harga_tiket * $validated['jumlah_tiket'],
+            'jumlah_bayar' => $tiket->harga * $validated['jumlah_tiket'],
             'tanggal_pembayaran' => null,
         ]);
 
         // Update ticket stock
-        $tiket->decrement('stok_tiket', $validated['jumlah_tiket']);
+        $tiket->decrement('stok', $validated['jumlah_tiket']);
 
         // Create UserTiket and PenjualanDetail records
         for ($i = 0; $i < $validated['jumlah_tiket']; $i++) {
@@ -60,13 +59,13 @@ class PenjualanController extends Controller
                 'user_id' => Auth::id(),   // Buyer
                 'tiket_id' => $tiket->id,
                 // 'status' => 'active',      // Initial status as active
-                'price' => $tiket->harga_tiket,
+                'harga_jual' => $tiket->harga,
             ]);
 
             // Attach each UserTiket to the Penjualan via PenjualanDetail
             $penjualan->penjualanDetails()->create([
                 'user_tiket_id' => $userTiket->id,
-                'is_resale' => false, // Original sale
+                'adalah_resale' => false, // Original sale
             ]);
         }
 
@@ -88,7 +87,7 @@ class PenjualanController extends Controller
         // Fetch all pending Penjualan records for the authenticated user
         $pendingCheckouts = Penjualan::with('tiket')
             ->where('user_id', Auth::id())
-            ->where('status', 'pending')
+            ->where('status', Penjualan::STATUS_PENDING)
             ->get();
 
         return view('user.penjualan.pending-checkouts', compact('pendingCheckouts'));
