@@ -67,7 +67,7 @@ Route::middleware('auth')->group(function () {
 
 //
 
-Route::resource('/admin/acaras', AcaraController::class);
+Route::resource('/admin/acaras', AcaraController::class)->middleware(['auth', 'role:admin']);
 
 Route::prefix('acaras/{acara}')->group(function () {
     Route::resource('tikets', TiketController::class)->except(['index']);
