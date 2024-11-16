@@ -22,7 +22,7 @@
 
                         <h2 class="text-2xl font-semibold mt-6 mb-4 text-gray-800">Informasi Tiket</h2>
                         <ul class="text-gray-700 space-y-2">
-                            <li><strong>Harga Tiket:</strong> Rp{{ number_format($userTiket->tiket->harga, 2) }}</li>
+                            <li><strong>Harga Tiket:</strong> Rp{{ number_format($userTiket->harga_jual, 2) }}</li>
                             <li><strong>Penjual:</strong> {{ $userTiket->user->name }}</li>
                         </ul>
                     </div>

@@ -14,7 +14,7 @@
                         <h4>Ajukan Penarikan Dana</h4>
                     </div>
                     <div class="card-body">
-                        <p><strong>Saldo Anda:</strong> ${{ number_format(Auth::user()->saldo, 2) }}</p>
+                        <p><strong>Saldo Anda:</strong> {{ number_format(Auth::user()->saldo, 2) }}</p>
 
                         <form action="{{ route('withdrawal.request') }}" method="POST" class="mt-3">
                             @csrf

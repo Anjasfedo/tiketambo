@@ -1,74 +1,127 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mx-auto py-8">
-        <h1 class="text-2xl font-bold mb-4">My Tickets</h1>
-
-        @if (session('success'))
-            <div class="bg-green-100 text-green-700 p-4 rounded mb-4">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        <div class="bg-white p-6 rounded shadow-md">
-            <!-- Active Tickets Section -->
-            <h2 class="text-xl font-semibold mb-4">Active Tickets</h2>
-            @foreach ($userTickets->where('status', 'active') as $ticket)
-                <div class="mb-6 p-4 border rounded-lg">
-                    <p><strong>Ticket Name:</strong> {{ $ticket->tiket->nama }}</p>
-                    <p><strong>Status:</strong> {{ ucfirst($ticket->status) }}</p>
-
-                    @php
-                        // Fetch the latest PenjualanDetail for the ticket to check if it’s a resale
-                        $latestPenjualanDetail = $ticket->penjualanDetails()->latest()->first();
-                    @endphp
-
-                    @if ($latestPenjualanDetail && $latestPenjualanDetail->is_resale)
-                        <p><strong>Resale Price:</strong> {{ number_format($ticket->price, 2) }}</p>
-                    @else
-                        <p><strong>Price:</strong> {{ number_format($ticket->tiket->harga_tiket, 2) }}</p>
-                    @endif
-
-                    <form action="{{ route('user.tickets.resell', $ticket->id) }}" method="POST" class="mt-4">
-                        @csrf
-                        <label for="price" class="block text-gray-700">Set New Resale Price</label>
-                        <input type="number" name="price" id="price"
-                            class="w-full p-2 border border-gray-300 rounded" required>
-                        <button type="submit"
-                            class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Put Up for Sale
-                        </button>
-                    </form>
-                </div>
-            @endforeach
-
-
-            <!-- Tickets for Sale Section -->
-            <h2 class="text-xl font-semibold mt-8 mb-4">Tickets for Sale</h2>
-            @foreach ($userTickets->where('status', 'for_sale') as $ticket)
-                <div class="mb-6 p-4 border rounded-lg">
-                    <p><strong>Ticket Name:</strong> {{ $ticket->tiket->nama }}</p>
-                    <p><strong>Status:</strong> {{ ucfirst($ticket->status) }}</p>
-                    <p><strong>Resale Price:</strong> {{ number_format($ticket->price, 2) }}</p>
-                </div>
-            @endforeach
-
-            <!-- Sold Tickets Section with Reactivate Button -->
-            <h2 class="text-xl font-semibold mt-8 mb-4">Sold Tickets</h2>
-            @foreach ($userTickets->where('status', 'sold') as $ticket)
-                <div class="mb-6 p-4 border rounded-lg">
-                    <p><strong>Ticket Name:</strong> {{ $ticket->tiket->nama }}</p>
-                    <p><strong>Status:</strong> {{ ucfirst($ticket->status) }}</p>
-                    <p><strong>Sale Price:</strong> {{ number_format($ticket->price, 2) }}</p>
-                    <form action="{{ route('user-ticket.activate', $ticket->id) }}" method="POST" class="mt-4">
-                        @csrf
-                        <button type="submit"
-                            class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
-                            Reactivate Ticket
-                        </button>
-                    </form>
-                </div>
-            @endforeach
+    <section class="section">
+        <div class="section-header">
+            <h1>Tiket Saya</h1>
         </div>
-    </div>
+
+        <div class="section-body">
+            @if (session('success'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <!-- Tiket Aktif -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Tiket Aktif</h4>
+                </div>
+                <div class="card-body">
+                    @if ($activeTickets->isEmpty())
+                        <p class="text-muted">Tidak ada tiket aktif.</p>
+                    @else
+                        <div class="row">
+                            @foreach ($activeTickets as $ticket)
+                                <div class="border rounded p-3 mb-3 col-md-4">
+                                    <p><strong>Nama Tiket:</strong> {{ $ticket->tiket->nama }}</p>
+                                    <p><strong>Status:</strong> {{ ucfirst($ticket->status) }}</p>
+
+                                    @php
+                                        $latestPenjualanDetail = $ticket->penjualanDetails()->latest()->first();
+                                    @endphp
+
+                                    <p><strong>Harga:</strong>
+                                        {{ $latestPenjualanDetail && $latestPenjualanDetail->adalah_resale
+                                            ? number_format($ticket->harga_jual, 2)
+                                            : number_format($ticket->tiket->harga, 2) }}
+                                    </p>
+
+                                    <form action="{{ route('user.tickets.resell', $ticket->id) }}" method="POST"
+                                        class="mt-3">
+                                        @csrf
+                                        <div class="form-group">
+                                            <label for="price">Atur Harga Jual Baru</label>
+                                            <input type="number" name="price" id="price" class="form-control"
+                                                max="{{ round($ticket->tiket->harga * 1.5, 2) }}"
+                                                min="{{ round($ticket->tiket->harga * 0.9, 2) }}" step="0.01" required>
+                                            <small class="form-text text-muted">
+                                                Harga harus antara {{ number_format($ticket->tiket->harga * 0.9, 2) }} dan
+                                                {{ number_format($ticket->tiket->harga * 1.5, 2) }}.
+                                            </small>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary btn-sm mt-2">
+                                            Jual Tiket
+                                        </button>
+                                    </form>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="d-flex justify-content-center mt-4">
+                            {{ $activeTickets->links() }}
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+            <!-- Tiket Dijual -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Tiket Dijual</h4>
+                </div>
+                <div class="card-body">
+                    @if ($forSaleTickets->isEmpty())
+                        <p class="text-muted">Tidak ada tiket yang sedang dijual.</p>
+                    @else
+                        <div class="row">
+                            @foreach ($forSaleTickets as $ticket)
+                                <div class="border rounded p-3 mb-3 col-md-4">
+                                    <p><strong>Nama Tiket:</strong> {{ $ticket->tiket->nama }}</p>
+                                    <p><strong>Status:</strong> {{ ucfirst($ticket->status) }}</p>
+                                    <p><strong>Harga Jual:</strong> {{ number_format($ticket->harga_jual, 2) }}</p>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="d-flex justify-content-center mt-4">
+                            {{ $forSaleTickets->links() }}
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+            <!-- Tiket Terjual -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Tiket Terjual</h4>
+                </div>
+                <div class="card-body">
+                    @if ($soldTickets->isEmpty())
+                        <p class="text-muted">Belum ada tiket yang terjual.</p>
+                    @else
+                        <div class="row">
+                            @foreach ($soldTickets as $ticket)
+                                <div class="border rounded p-3 mb-3 col-md-4">
+                                    <p><strong>Nama Tiket:</strong> {{ $ticket->tiket->nama }}</p>
+                                    <p><strong>Status:</strong> {{ ucfirst($ticket->status) }}</p>
+                                    <p><strong>Harga Jual:</strong> {{ number_format($ticket->price, 2) }}</p>
+                                    <form action="{{ route('user-ticket.activate', $ticket->id) }}" method="POST"
+                                        class="mt-3">
+                                        @csrf
+                                        <button type="submit" class="btn btn-warning btn-sm">
+                                            Aktifkan Ulang Tiket
+                                        </button>
+                                    </form>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="d-flex justify-content-center mt-4">
+                            {{ $soldTickets->links() }}
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </section>
 @endsection

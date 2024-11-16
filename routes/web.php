@@ -38,7 +38,7 @@ Route::get('/tikets', function () {
         'tikets',
         [
             'tikets' => UserTiket::where('status', UserTiket::STATUS_FOR_SALE)
-            ->with('tiket', 'user')
+            ->with('tiket', 'user')->latest()
             ->paginate(8),
         ]
     );

@@ -7,6 +7,9 @@
             <li>
                 <a class="nav-link" href="{{ route('acaras.index') }}">Acara</a>
             </li>
+            <li>
+                <a class="nav-link" href="{{ route('user.tickets.index') }}">Tiket</a>
+            </li>
         </ul>
     </li>
     <li class="menu-header">Penarikan Dana</li>

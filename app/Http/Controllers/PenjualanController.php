@@ -58,7 +58,7 @@ class PenjualanController extends Controller
             $userTiket = UserTiket::create([
                 'user_id' => Auth::id(),   // Buyer
                 'tiket_id' => $tiket->id,
-                // 'status' => 'active',      // Initial status as active
+                'status' => UserTiket::STATUS_ACTIVE,      // Initial status as active
                 'harga_jual' => $tiket->harga,
             ]);
 
@@ -112,39 +112,39 @@ class PenjualanController extends Controller
         return redirect()->route('penjualan.pending-checkouts')->with('success', 'Checkout has been canceled successfully.');
     }
 
-    public function resell(Request $request, $penjualan_id)
-    {
-        $penjualan = Penjualan::where('id', $penjualan_id)
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
+    // public function resell(Request $request, $penjualan_id)
+    // {
+    //     $penjualan = Penjualan::where('id', $penjualan_id)
+    //         ->where('user_id', Auth::id())
+    //         ->firstOrFail();
 
-        $originalPrice = $penjualan->tiket->harga_tiket;
+    //     $originalPrice = $penjualan->tiket->harga_tiket;
 
-        // Define the allowable price range (e.g., 50% - 150% of the original price)
-        $minPrice = $originalPrice * 0.5; // 50% of original price
-        $maxPrice = $originalPrice * 1.5; // 150% of original price
+    //     // Define the allowable price range (e.g., 50% - 150% of the original price)
+    //     $minPrice = $originalPrice * 0.5; // 50% of original price
+    //     $maxPrice = $originalPrice * 1.5; // 150% of original price
 
-        // Validate the resale price
-        $request->validate([
-            'price' => [
-                'required',
-                'numeric',
-                'min:' . $minPrice,
-                'max:' . $maxPrice,
-            ],
-        ], [
-            'price.min' => 'The resale price cannot be lower than ' . number_format($minPrice, 2),
-            'price.max' => 'The resale price cannot be higher than ' . number_format($maxPrice, 2),
-        ]);
+    //     // Validate the resale price
+    //     $request->validate([
+    //         'price' => [
+    //             'required',
+    //             'numeric',
+    //             'min:' . $minPrice,
+    //             'max:' . $maxPrice,
+    //         ],
+    //     ], [
+    //         'price.min' => 'The resale price cannot be lower than ' . number_format($minPrice, 2),
+    //         'price.max' => 'The resale price cannot be higher than ' . number_format($maxPrice, 2),
+    //     ]);
 
-        // Update the ticket record for resale with a new sale price and status
-        $penjualan->update([
-            'status' => Penjualan::STATUS_PENDING,
-            'seller_id' => Auth::id(),
-        ]);
+    //     // Update the ticket record for resale with a new sale price and status
+    //     $penjualan->update([
+    //         'status' => Penjualan::STATUS_PENDING,
+    //         'seller_id' => Auth::id(),
+    //     ]);
 
-        return redirect()->back()->with('success', 'Tiket telah berhasil dipasang untuk dijual.');
-    }
+    //     return redirect()->back()->with('success', 'Tiket telah berhasil dipasang untuk dijual.');
+    // }
 
     //
 

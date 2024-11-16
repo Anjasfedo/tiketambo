@@ -28,7 +28,7 @@
                                     @foreach ($withdrawals as $withdrawal)
                                         <tr>
                                             <td>{{ $withdrawal->created_at->format('Y-m-d') }}</td>
-                                            <td>${{ number_format($withdrawal->jumlah, 2) }}</td>
+                                            <td>{{ number_format($withdrawal->jumlah, 2) }}</td>
                                             <td>
                                                 <span class="badge
                                                     @if ($withdrawal->status === \App\Models\Withdrawal::STATUS_PENDING) badge-warning
@@ -43,13 +43,13 @@
                                                         <form action="{{ route('withdrawal.process', $withdrawal->id) }}" method="POST">
                                                             @csrf
                                                             <button type="submit" class="btn btn-success btn-sm">
-                                                                Process
+                                                                Terima
                                                             </button>
                                                         </form>
                                                         <form action="{{ route('withdrawal.cancel', $withdrawal->id) }}" method="POST">
                                                             @csrf
                                                             <button type="submit" class="btn btn-danger btn-sm">
-                                                                Cancel
+                                                                Tolak
                                                             </button>
                                                         </form>
                                                     </div>
