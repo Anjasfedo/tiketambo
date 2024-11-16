@@ -10,8 +10,14 @@ class WithdrawalController extends Controller
 {
     public function index()
     {
-        $withdrawals = Withdrawal::where('user_id', Auth::id())->latest()->get();
-        return view('user.withdrawal', compact('withdrawals'));
+        $withdrawals = Withdrawal::where('user_id', Auth::id())->latest()->paginate(10);
+        return view('user.withdrawal.index', compact('withdrawals'));
+    }
+
+    public function admin()
+    {
+        $withdrawals = Withdrawal::latest()->paginate(10);
+        return view('admin.withdrawal.index', compact('withdrawals'));
     }
 
     /**
@@ -23,7 +29,7 @@ class WithdrawalController extends Controller
 
         // Validate the withdrawal amount
         $request->validate([
-            'amount' => 'required|numeric|min:1|max:' . $user->money,
+            'amount' => 'required|numeric|min:1|max:' . $user->saldo,
         ], [
             'amount.max' => 'The requested amount exceeds your available balance.',
         ]);
@@ -31,12 +37,12 @@ class WithdrawalController extends Controller
         // Create a new withdrawal request
         Withdrawal::create([
             'user_id' => $user->id,
-            'amount' => $request->amount,
+            'jumlah' => $request->amount,
             'status' => Withdrawal::STATUS_PENDING,
         ]);
 
         // Decrease the user's available balance temporarily (to prevent duplicate requests)
-        $user->decrement('money', $request->amount);
+        $user->decrement('saldo', $request->amount);
 
         return redirect()->back()->with('success', 'Withdrawal request submitted successfully.');
     }
@@ -71,7 +77,7 @@ class WithdrawalController extends Controller
             ->firstOrFail();
 
         // Return the amount to the user's balance
-        $withdrawal->user->increment('money', $withdrawal->amount);
+        $withdrawal->user->increment('saldo', $withdrawal->jumlah);
 
         // Mark the withdrawal as failed
         $withdrawal->update(['status' => Withdrawal::STATUS_FAILED]);

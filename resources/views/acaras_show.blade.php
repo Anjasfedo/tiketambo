@@ -34,6 +34,38 @@
                 <div>
                     <h2 class="text-2xl font-bold text-gray-800 lg:text-3xl dark:text-gray-100">Tiket
                     </h2>
+                    <p class="mt-4 text-white">Beli Tiket Acara {{ $acara->nama }} dari {{ $acara->user->name }}</p>
+                </div>
+            </div>
+            <div class="grid gap-6 mt-16 -mx-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                @if ($acara->tiket->isNotEmpty())
+                    @foreach ($acara->tiket as $tiket)
+                        <div
+                            class="px-6 py-8 transition-colors duration-300 transform bg-gray-700 rounded-lg dark:bg-gray-800">
+                            <p class="text-lg font-medium text-gray-100">{{ $tiket->nama }}</p>
+
+                            <h4 class="mt-2 text-3xl font-semibold text-gray-100">{{ $tiket->harga }} Rupiah</h4>
+
+                            <p class="mt-4 mb-8 text-gray-300">{{ $tiket->stok }} Tiket Tersisa</p>
+                            <a href="{{ route('penjualan.create', $tiket->id) }}"
+                                class="w-full px-4 py-2 mt-10 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                                Beli Tiket
+                            </a>
+                        </div>
+                    @endforeach
+                @else
+                    <p>No tickets available for this event.</p>
+                @endif
+            </div>
+        </div>
+    </section>
+
+    <section class="min-h-screen flex flex-col px-4 ">
+        <div class="container px-6 py-8 mx-auto">
+            <div class="sm:flex sm:items-center sm:justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 lg:text-3xl dark:text-gray-100">Tiket
+                    </h2>
                     <p class="mt-4 text-gray-500 dark:text-gray-400">Beli Tiket Acara {{ $acara->nama }}</p>
                 </div>
             </div>
@@ -41,7 +73,7 @@
                 @if ($acara->tiket->isNotEmpty())
                     @foreach ($acara->tiket as $tiket)
                         <div
-                            class="px-6 py-4 transition-colors duration-300 transform bg-gray-700 rounded-lg dark:bg-gray-800">
+                            class="px-6 py-8 transition-colors duration-300 transform bg-gray-700 rounded-lg dark:bg-gray-800">
                             <p class="text-lg font-medium text-gray-100">{{ $tiket->nama }}</p>
 
                             <h4 class="mt-2 text-3xl font-semibold text-gray-100">{{ $tiket->harga }} Rupiah</h4>

@@ -6,7 +6,7 @@
             @include('partials.header')
 
             <!-- Search Form -->
-            <div class="flex justify-end">
+            <div class="flex justify-between">
                 <form action="{{ route('acaras') }}" method="GET" class="mb-8">
                     <div class="flex items-center gap-4">
                         <input type="text" name="search" value="{{ request('search') }}"

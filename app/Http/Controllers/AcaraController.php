@@ -63,6 +63,8 @@ class AcaraController extends Controller
         // Set the logged-in user's ID
         $validated['user_id'] = Auth::id();
 
+        $validated['details'] = ['lorem' => 'ipsum', 'dolor' => 'res'];
+
         Acara::create($validated);
 
         return redirect()->route('acaras.index')->with('success', 'Acara berhasil dibuat!');

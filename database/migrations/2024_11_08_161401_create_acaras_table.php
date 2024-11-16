@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->time('waktu');
             $table->string('gambar')->nullable();
+            $table->json('details')->nullable();
             $table->foreignIdFor(App\Models\User::class, 'user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

@@ -9,12 +9,14 @@
                     ->where('status', \App\Models\Penjualan::STATUS_PENDING)
                     ->count();
             @endphp
-            <a href="{{ route('penjualan.pending-checkouts') }}"
-                class="bg-indigo-400 text-white px-4 py-2 rounded-md shadow flex items-center gap-2 hover:bg-indigo-500 duration-200"
-                data-svelte-h="svelte-checkout-btn">
-                <i class="fa-solid fa-shopping-cart"></i>
-                Checkout  ({{ $pendingCheckoutCount }})
-            </a>
+            @if (Auth::check())
+                <a href="{{ route('penjualan.pending-checkouts') }}"
+                    class="bg-indigo-400 text-white px-4 py-2 rounded-md shadow flex items-center gap-2 hover:bg-indigo-500 duration-200"
+                    data-svelte-h="svelte-checkout-btn">
+                    <i class="fa-solid fa-shopping-cart"></i>
+                    Checkout ({{ $pendingCheckoutCount }})
+                </a>
+            @endif
             <a href="{{ route('acaras') }}" class="duration-200 hover:text-indigo-400 cursor-pointer"
                 data-svelte-h="svelte-1sb72ps">Acara</a>
             <a href="{{ route('login') }}" class="specialButton" data-svelte-h="svelte-141y5lp">Masuk</a>

@@ -76,7 +76,7 @@ Route::prefix('penjualan')->middleware(['auth'])->group(function () {
 
 // Route::post('user-tickets/{id}/resell', [UserTiketController::class, 'resell'])->name('user-tickets.resell');
 
-Route::post('withdrawals/request', [WithdrawalController::class, 'request'])->name('withdrawals.request');
+// Route::post('withdrawals/request', [WithdrawalController::class, 'request'])->name('withdrawals.request');
 
 Route::middleware('auth')->group(function () {
 
@@ -96,6 +96,7 @@ Route::post('penjualan/resale/{userTiketId}', [PenjualanController::class, 'resa
 Route::post('/user-ticket/{userTiketId}/activate', [PenjualanController::class, 'markTicketActive'])->name('user-ticket.activate');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/withdrawal', [WithdrawalController::class, 'admin'])->name('withdrawal.admin');
     Route::get('/withdrawal', [WithdrawalController::class, 'index'])->name('withdrawal.index');
     Route::post('/withdrawal/request', [WithdrawalController::class, 'request'])->name('withdrawal.request');
     Route::post('/withdrawal/{withdrawalId}/process', [WithdrawalController::class, 'process'])->name('withdrawal.process'); // For admin use

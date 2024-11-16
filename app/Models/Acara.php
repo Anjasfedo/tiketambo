@@ -10,7 +10,12 @@ class Acara extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama', 'lokasi', 'deskripsi', 'tanggal', 'waktu', 'gambar', 'user_id'];
+    protected $fillable = ['nama', 'lokasi', 'deskripsi', 'tanggal', 'waktu', 'gambar', 'user_id', 'details'];
+
+    protected $casts = [
+        'details' => 'json',
+
+    ];
 
     public function user()
     {

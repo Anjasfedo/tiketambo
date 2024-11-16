@@ -41,7 +41,8 @@
                             <div class="dropdown-title">Logged in </div>
                             <a href="" class="dropdown-item has-icon"><i class="far fa-user"></i> Profile</a>
                             <div class="dropdown-divider"></div>
-                            <form action="" method="POST">
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
                                 <button type="submit"
                                     class="dropdown-item has-icon text-danger small d-flex align-items-center"><i
                                         class="fas fa-sign-out-alt"></i> Logout</button>
