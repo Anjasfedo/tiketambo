@@ -38,6 +38,7 @@ class PembayaranController extends Controller
         foreach ($penjualan->penjualanDetails as $detail) {
             $detail->userTiket->update([
                 'user_id' => $penjualan->user_id, // Set new owner to the buyer's user_id
+                'status' => UserTiket::STATUS_ACTIVE,
             ]);
         }
 

@@ -14,11 +14,27 @@ class WithdrawalController extends Controller
         return view('user.withdrawal.index', compact('withdrawals'));
     }
 
-    public function admin()
+    public function admin(Request $request)
     {
-        $withdrawals = Withdrawal::latest()->paginate(10);
+        $query = $request->input('search');
+        $status = $request->input('status');
+
+        $withdrawals = Withdrawal::query()
+            ->when($query, function ($queryBuilder) use ($query) {
+                $queryBuilder->whereHas('user', function ($subQuery) use ($query) {
+                    $subQuery->where('name', 'like', '%' . $query . '%');
+                })
+                    ->orWhere('jumlah', 'like', '%' . $query . '%');
+            })
+            ->when($status, function ($queryBuilder) use ($status) {
+                $queryBuilder->where('status', $status);
+            })
+            ->latest()
+            ->paginate(10);
+
         return view('admin.withdrawal.index', compact('withdrawals'));
     }
+
 
     /**
      * Request a withdrawal.

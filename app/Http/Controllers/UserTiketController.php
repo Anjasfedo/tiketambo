@@ -19,11 +19,15 @@ class UserTiketController extends Controller
             ->where('status', UserTiket::STATUS_FOR_SALE)
             ->paginate(12);
 
-        $soldTickets = UserTiket::where('user_id', auth()->id())
-            ->where('status', UserTiket::STATUS_SOLD)
-            ->paginate(12);
+        $activeTicketsCount = UserTiket::where('user_id', auth()->id())
+            ->where('status', UserTiket::STATUS_ACTIVE)
+            ->count();
 
-        return view('user.tickets.index', compact('activeTickets', 'forSaleTickets', 'soldTickets'));
+        $forSaleTicketsCount = UserTiket::where('user_id', auth()->id())
+            ->where('status', UserTiket::STATUS_FOR_SALE)
+            ->count();
+
+        return view('user.tickets.index', compact('activeTickets', 'forSaleTickets', 'activeTicketsCount', 'forSaleTicketsCount'));
     }
 
     public function resell(Request $request, $id)

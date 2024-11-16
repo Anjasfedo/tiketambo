@@ -24,7 +24,7 @@ class UserTiketFactory extends Factory
         return [
             'user_id' => User::factory(), // Link to a new User
             'tiket_id' => Tiket::factory(), // Link to a new Tiket
-            'status' => $this->faker->randomElement([UserTiket::STATUS_ACTIVE, UserTiket::STATUS_FOR_SALE, UserTiket::STATUS_SOLD, UserTiket::STATUS_EXPIRED]), // Status acak menggunakan enum
+            'status' => $this->faker->randomElement([UserTiket::STATUS_ACTIVE, UserTiket::STATUS_FOR_SALE, UserTiket::STATUS_EXPIRED]), // Status acak menggunakan enum
             'harga_jual' => $this->faker->randomFloat(2, 10, 500), // Random price between 10 and 500
         ];
     }

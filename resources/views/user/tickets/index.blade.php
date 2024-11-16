@@ -16,7 +16,7 @@
             <!-- Tiket Aktif -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h4>Tiket Aktif</h4>
+                    <h4>Tiket Aktif <span class="badge badge-primary">{{ $activeTicketsCount }}</span></h4>
                 </div>
                 <div class="card-body">
                     @if ($activeTickets->isEmpty())
@@ -69,7 +69,7 @@
             <!-- Tiket Dijual -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h4>Tiket Dijual</h4>
+                    <h4>Tiket Dijual <span class="badge badge-primary">{{ $forSaleTicketsCount }}</span></h4>
                 </div>
                 <div class="card-body">
                     @if ($forSaleTickets->isEmpty())
@@ -86,38 +86,6 @@
                         </div>
                         <div class="d-flex justify-content-center mt-4">
                             {{ $forSaleTickets->links() }}
-                        </div>
-                    @endif
-                </div>
-            </div>
-
-            <!-- Tiket Terjual -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h4>Tiket Terjual</h4>
-                </div>
-                <div class="card-body">
-                    @if ($soldTickets->isEmpty())
-                        <p class="text-muted">Belum ada tiket yang terjual.</p>
-                    @else
-                        <div class="row">
-                            @foreach ($soldTickets as $ticket)
-                                <div class="border rounded p-3 mb-3 col-md-4">
-                                    <p><strong>Nama Tiket:</strong> {{ $ticket->tiket->nama }}</p>
-                                    <p><strong>Status:</strong> {{ ucfirst($ticket->status) }}</p>
-                                    <p><strong>Harga Jual:</strong> {{ number_format($ticket->price, 2) }}</p>
-                                    <form action="{{ route('user-ticket.activate', $ticket->id) }}" method="POST"
-                                        class="mt-3">
-                                        @csrf
-                                        <button type="submit" class="btn btn-warning btn-sm">
-                                            Aktifkan Ulang Tiket
-                                        </button>
-                                    </form>
-                                </div>
-                            @endforeach
-                        </div>
-                        <div class="d-flex justify-content-center mt-4">
-                            {{ $soldTickets->links() }}
                         </div>
                     @endif
                 </div>

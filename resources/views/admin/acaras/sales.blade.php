@@ -26,7 +26,7 @@
                         <h4>Daftar Penjualan</h4>
                     </div>
                     <div class="card-body">
-                        @if($sales->isEmpty())
+                        @if($penjualans->isEmpty())
                             <p class="text-muted">Tidak ada penjualan untuk tiket ini.</p>
                         @else
                             <div class="table-responsive">
@@ -43,25 +43,25 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($sales as $sale)
+                                        @foreach($penjualans as $penjualan)
                                             @php
-                                                $totalHarga = $sale->pembayaran ? $sale->pembayaran->jumlah_bayar : $sale->tiket->harga * $sale->jumlah;
+                                                $totalHarga = $penjualan->pembayaran ? $penjualan->pembayaran->jumlah_bayar : $penjualan->tiket->harga * $penjualan->jumlah;
                                             @endphp
                                             <tr>
-                                                <td>{{ $sale->nomor_pesanan }}</td>
-                                                <td>{{ $sale->pembayaran->jumlah_tiket }}</td>
+                                                <td>{{ $penjualan->nomor_pesanan }}</td>
+                                                <td>{{ $penjualan->pembayaran->jumlah_tiket }}</td>
                                                 <td>Rp {{ number_format($totalHarga, 2) }}</td>
-                                                <td>{{ ucfirst($sale->status) }}</td>
+                                                <td>{{ ucfirst($penjualan->status) }}</td>
                                                 <td>
-                                                    @if($sale->status === 'completed')
+                                                    @if($penjualan->status === \App\Models\Penjualan::STATUS_COMPLETED)
                                                         <span class="badge badge-success">Completed</span><br>
-                                                        <small>{{ $sale->pembayaran->tanggal_pembayaran }}</small>
+                                                        <small>{{ $penjualan->pembayaran->tanggal_pembayaran }}</small>
                                                     @else
                                                         <span class="badge badge-warning">Pending</span>
                                                     @endif
                                                 </td>
-                                                <td>{{ $sale->user->name }}</td>
-                                                <td>{{ $sale->user->email }}</td>
+                                                <td>{{ $penjualan->user->name }}</td>
+                                                <td>{{ $penjualan->user->email }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>

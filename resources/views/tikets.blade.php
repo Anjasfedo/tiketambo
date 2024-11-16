@@ -7,11 +7,11 @@
 
             <!-- Search Form -->
             <div class="flex justify-between">
-                <form action="{{ route('acaras') }}" method="GET" class="mb-8">
+                <form action="{{ route('tikets') }}" method="GET" class="mb-8">
                     <div class="flex items-center gap-4">
                         <input type="text" name="search" value="{{ request('search') }}"
                             class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-200 focus:outline-none text-black"
-                            placeholder="Cari acara...">
+                            placeholder="Cari tiket...">
                         <button type="submit"
                             class="px-6 py-3 text-white !bg-indigo-500 hover:bg-indigo-600 rounded-lg font-semibold">
                             Cari
@@ -24,7 +24,7 @@
                 @forelse ($tikets as $tiket)
                     <div class="w-full max-w-sm px-4 py-3 bg-white rounded-md shadow-md dark:bg-gray-800">
                         <div class="flex items-center justify-between">
-                            <span class="text-sm font-semibold text-gray-800">{{ $tiket->tiket->nama }}</span>
+                            <span class="text-lg font-extrabold text-gray-800">{{ $tiket->tiket->nama }}</span>
                             <span
                                 class="px-3 py-1 text-xs text-gray-700 font-bold bg-green-200 rounded-full">{{ number_format($tiket->harga_jual, 2) }}
                                 Rupiah</span>
@@ -32,6 +32,7 @@
 
                         <div>
                             <h1 class="mt-2 text-lg font-semibold text-indigo-700">{{ $tiket->tiket->acara->nama }}</h1>
+                            <h2 class="mt-2 text-base text-gray-700">{{ $tiket->user->name }}</h1>
                             <p class="mt-2 text-sm text-gray-600">{{ $tiket->tiket->acara->deskripsi }}</p>
                         </div>
 

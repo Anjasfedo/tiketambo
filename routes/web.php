@@ -34,15 +34,24 @@ Route::get('/acaras/{id}', function ($id) {
 })->name('acaras_show');
 
 Route::get('/tikets', function () {
-    return view(
-        'tikets',
-        [
-            'tikets' => UserTiket::where('status', UserTiket::STATUS_FOR_SALE)
-            ->with('tiket', 'user')->latest()
-            ->paginate(8),
-        ]
-    );
+    $query = request()->input('search');
+    $tikets = UserTiket::where('status', UserTiket::STATUS_FOR_SALE)
+        ->with(['tiket', 'user'])
+        ->when($query, function ($queryBuilder) use ($query) {
+            $queryBuilder->whereHas('tiket', function ($subQuery) use ($query) {
+                $subQuery->where('nama', 'like', '%' . $query . '%')
+                    ->orWhere('harga', 'like', '%' . $query . '%');
+            })
+                ->orWhereHas('user', function ($subQuery) use ($query) {
+                    $subQuery->where('name', 'like', '%' . $query . '%');
+                });
+        })
+        ->latest()
+        ->paginate(8);
+
+    return view('tikets', compact('tikets'));
 })->name('tikets');
+
 
 Route::get('/dashboard', function () {
     $tikets = Tiket::with('acara')->where('stok', '>', 0)->get(); // Fetch tickets with available stock

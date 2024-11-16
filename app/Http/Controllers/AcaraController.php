@@ -147,10 +147,10 @@ class AcaraController extends Controller
     public function showSales($ticket_id)
     {
         $ticket = Tiket::with('acara')->findOrFail($ticket_id);
-        $sales = Penjualan::with(['pembayaran', 'user'])
+        $penjualans = Penjualan::with(['pembayaran', 'user'])
             ->where('tiket_id', $ticket_id)
             ->get();
 
-        return view('admin.acaras.sales', compact('ticket', 'sales'));
+        return view('admin.acaras.sales', compact('ticket', 'penjualans'));
     }
 }
