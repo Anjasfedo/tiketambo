@@ -49,9 +49,9 @@
                                 <label for="jumlah_tiket" class="block text-gray-700 font-medium">Jumlah Tiket</label>
                                 <input type="number" name="jumlah_tiket" id="jumlah_tiket"
                                     class="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-200 focus:outline-none text-black"
-                                    value="{{ old('jumlah_tiket', 1) }}" min="1" max="{{ $tiket->stok_tiket }}"
+                                    value="{{ old('jumlah_tiket', 1) }}" min="1" max="{{ $tiket->stok }}"
                                     required>
-                                <p class="text-sm text-gray-600 mt-1">Stok tersedia: {{ $tiket->stok_tiket }}</p>
+                                <p class="text-sm text-gray-600 mt-1">Stok tersedia: {{ $tiket->stok }}</p>
                                 @error('jumlah_tiket')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror

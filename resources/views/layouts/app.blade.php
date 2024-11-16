@@ -25,6 +25,13 @@
                             <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i
                                     class="fas fa-bars"></i></a>
                         </li>
+                        <li>
+                            <a href="{{ route('landing') }}"  class="nav-link nav-link-lg">
+                                <span class="btn btn-success bg-primary">
+                                    Kembali Ke Halaman Utama
+                                </span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <ul class="navbar-nav navbar-right">
@@ -34,12 +41,13 @@
                             <img alt="image" src="{{ asset('assets/images/avatar/avatar-1.png') }}"
                                 class="rounded-circle mr-1" />
                             <div class="d-sm-none d-lg-inline-block">
-                                Hi,
+                                Hi, {{ auth()->user()->name }}
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <div class="dropdown-title">Logged in </div>
-                            <a href="" class="dropdown-item has-icon"><i class="far fa-user"></i> Profile</a>
+                            <div class="dropdown-title">Logged in {{ auth()->user()->email }}</div>
+                            <a href="{{ route('profile.edit') }}" class="dropdown-item has-icon"><i
+                                    class="far fa-user"></i> Profile</a>
                             <div class="dropdown-divider"></div>
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf

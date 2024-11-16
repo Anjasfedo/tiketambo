@@ -1,29 +1,64 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
+@section('content')
+    <section class="section">
+        <div class="section-header">
+            <h1>Profile</h1>
+        </div>
+
+        <div class="section-body">
+            <div class="row">
+                <!-- Update Profile Information -->
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Update Profile Information</h4>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="{{ route('profile.update') }}" class="bg-white p-4 rounded shadow">
+                                @csrf
+                                @method('PATCH')
+
+                                @include('profile.partials.update-profile-information-form')
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
+                <!-- Update Password -->
+                <div class="col-12 mt-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Update Password</h4>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="{{ route('password.update') }}" class="bg-white p-4 rounded shadow">
+                                @csrf
+                                @method('PUT')
+
+                                @include('profile.partials.update-password-form')
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
+                <!-- Delete User Account -->
+                <div class="col-12 mt-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Delete Account</h4>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="{{ route('profile.destroy') }}" class="bg-white p-4 rounded shadow">
+                                @csrf
+                                @method('DELETE')
+
+                                @include('profile.partials.delete-user-form')
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</x-app-layout>
+    </section>
+@endsection
