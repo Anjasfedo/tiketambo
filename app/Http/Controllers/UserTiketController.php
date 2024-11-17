@@ -19,6 +19,11 @@ class UserTiketController extends Controller
             ->where('status', UserTiket::STATUS_FOR_SALE)
             ->paginate(12);
 
+        // Query for expired tickets
+        $expiredTickets = UserTiket::where('user_id', auth()->id())
+            ->where('status', UserTiket::STATUS_EXPIRED)
+            ->paginate(12);
+
         $activeTicketsCount = UserTiket::where('user_id', auth()->id())
             ->where('status', UserTiket::STATUS_ACTIVE)
             ->count();
@@ -27,7 +32,11 @@ class UserTiketController extends Controller
             ->where('status', UserTiket::STATUS_FOR_SALE)
             ->count();
 
-        return view('user.tickets.index', compact('activeTickets', 'forSaleTickets', 'activeTicketsCount', 'forSaleTicketsCount'));
+        $expiredTicketsCount = UserTiket::where('user_id', auth()->id())
+            ->where('status', UserTiket::STATUS_EXPIRED)
+            ->count();
+
+        return view('user.tickets.index', compact('activeTickets', 'forSaleTickets', 'expiredTickets', 'activeTicketsCount', 'forSaleTicketsCount', 'expiredTicketsCount'));
     }
 
     public function resell(Request $request, $id)

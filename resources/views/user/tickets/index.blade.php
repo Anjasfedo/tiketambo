@@ -90,6 +90,31 @@
                     @endif
                 </div>
             </div>
+
+            <!-- Tiket Kadaluarsa -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Tiket Kadaluarsa <span class="badge badge-danger">{{ $expiredTicketsCount }}</span></h4>
+                </div>
+                <div class="card-body">
+                    @if ($expiredTickets->isEmpty())
+                        <p class="text-muted">Tidak ada tiket yang kadaluarsa.</p>
+                    @else
+                        <div class="row">
+                            @foreach ($expiredTickets as $ticket)
+                                <div class="border rounded p-3 mb-3 col-md-4">
+                                    <p><strong>Nama Tiket:</strong> {{ $ticket->tiket->nama }}</p>
+                                    <p><strong>Status:</strong> {{ ucfirst($ticket->status) }}</p>
+                                    <p><strong>Harga:</strong> {{ number_format($ticket->harga_jual, 2) }}</p>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="d-flex justify-content-center mt-4">
+                            {{ $expiredTickets->links() }}
+                        </div>
+                    @endif
+                </div>
+            </div>
         </div>
     </section>
 @endsection

@@ -21,34 +21,41 @@ class ExpireTickets extends Command
      *
      * @var string
      */
-    protected $description = 'Mark tickets as expired if the event date has passed';
+    protected $description = 'Tandai tiket sebagai kadaluarsa jika tanggal acara sudah lewat';
 
     /**
      * Execute the console command.
      */
     public function handle()
     {
-        // Find tickets linked to events with a date earlier than today, and with status 'active' or 'for_sale'
+        // Cari tiket yang terkait dengan acara dengan tanggal yang lebih lama dari hari ini, dan dengan status 'aktif' atau 'dijual'
         $expiredTickets = UserTiket::whereHas('tiket.acara', function ($query) {
-            // Make sure acara and tiket relationships are set up properly
+            // Pastikan relasi acara dan tiket terhubung dengan benar
             $query->where('tanggal', '<', Carbon::today());
         })
-            ->whereIn('status', [UserTiket::STATUS_ACTIVE, UserTiket::STATUS_FOR_SALE]) // Only expire tickets that are active or for sale
+            ->whereIn('status', [UserTiket::STATUS_ACTIVE, UserTiket::STATUS_FOR_SALE]) // Hanya tiket yang aktif atau dijual yang akan kadaluarsa
             ->get();
 
-        // Loop through the expired tickets and mark them as expired
-        foreach ($expiredTickets as $ticket) {
-            // Log the ticket's current status and the change
-            Log::info('Ticket ID: ' . $ticket->id . ' - Status change from ' . $ticket->status . ' to expired.');
+        // Log jumlah total tiket yang akan diubah statusnya
+        $totalExpiredTickets = $expiredTickets->count();
+        Log::info('Jumlah tiket yang akan kadaluarsa: ' . $totalExpiredTickets);
 
-            // Update the ticket status
+        // Loop melalui tiket yang kadaluarsa dan tandai mereka sebagai kadaluarsa
+        foreach ($expiredTickets as $ticket) {
+            // Log status tiket saat ini dan perubahan status
+            Log::info('Tiket Pengguna ID: ' . $ticket->id . ' - Perubahan status dari ' . $ticket->status . ' menjadi kadaluarsa.');
+
+            // Perbarui status tiket
             $ticket->update(['status' => UserTiket::STATUS_EXPIRED]);
 
-            // Log the status change confirmation
-            Log::info('Ticket ID: ' . $ticket->id . ' - Status updated to expired.');
+            // Log konfirmasi perubahan status
+            Log::info('Tiket Pengguna ID: ' . $ticket->id . ' - Status diperbarui menjadi kadaluarsa.');
         }
 
-        // Output a success message to the console
-        $this->info('Expired tickets have been updated.');
+        // Output pesan sukses ke konsol
+        $this->info('Tiket yang kadaluarsa telah diperbarui.');
+
+        // Log jumlah tiket yang diperbarui
+        Log::info('Jumlah tiket yang diperbarui menjadi kadaluarsa: ' . $totalExpiredTickets);
     }
 }
