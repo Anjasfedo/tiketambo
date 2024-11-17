@@ -37,10 +37,11 @@
                                     Bayar
                                 </a>
                             </div>
-
                         </div>
                     @empty
+                    <div class="px-8 py-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
                         <p class="text-gray-700">Anda tidak memiliki pesanan yang belum dibayar.</p>
+                    </div>
                     @endforelse
                 </div>
             </div>

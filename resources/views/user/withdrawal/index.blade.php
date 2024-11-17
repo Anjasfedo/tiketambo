@@ -19,7 +19,7 @@
                         <form action="{{ route('withdrawal.request') }}" method="POST" class="mt-3">
                             @csrf
                             <div class="form-group">
-                                <label for="amount">Withdrawal Amount</label>
+                                <label for="amount">Nominal Penarikan</label>
                                 <input type="number" name="amount" id="amount" class="form-control" min="1" max="{{ Auth::user()->saldo }}" required>
                             </div>
                             <button type="submit" class="btn btn-primary mt-3">
