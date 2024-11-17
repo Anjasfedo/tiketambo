@@ -54,10 +54,12 @@
                                                 <td>{{ ucfirst($penjualan->status) }}</td>
                                                 <td>
                                                     @if($penjualan->status === \App\Models\Penjualan::STATUS_COMPLETED)
-                                                        <span class="badge badge-success">Completed</span><br>
+                                                        <span class="badge badge-success">{{ \App\Models\Penjualan::STATUS_COMPLETED }}</span><br>
                                                         <small>{{ $penjualan->pembayaran->tanggal_pembayaran }}</small>
-                                                    @else
-                                                        <span class="badge badge-warning">Pending</span>
+                                                    @elseif ($penjualan->status === \App\Models\Penjualan::STATUS_PENDING)
+                                                        <span class="badge badge-warning">{{ \App\Models\Penjualan::STATUS_PENDING }}</span>
+                                                        @else
+                                                        <span class="badge badge-danger">{{ \App\Models\Penjualan::STATUS_CANCELED }}</span>
                                                     @endif
                                                 </td>
                                                 <td>{{ $penjualan->user->name }}</td>

@@ -74,6 +74,90 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('acaras/{acara}')->group(function () {
             Route::resource('tikets', TiketController::class)->except(['index']);
         });
+
+        // View Users (Index)
+        Route::get('users', function (Illuminate\Http\Request $request) {
+            $query = App\Models\User::query();
+
+            // Search by name or email
+            if ($search = $request->input('search')) {
+                $query->where('name', 'like', "%$search%")
+                    ->orWhere('email', 'like', "%$search%");
+            }
+
+            // Filter by role
+            if ($role = $request->input('role')) {
+                $query->where('role', $role);
+            }
+
+            // Paginate the results
+            $users = $query->paginate(10);
+
+            return view('admin.users.index', compact('users'));
+        })->name('admin.users.index');
+
+        // Create User (Form)
+        Route::get('users/create', function () {
+            return view('admin.users.create');
+        })->name('admin.users.create');
+
+        // View User (Show)
+        Route::get('users/{user}', function (App\Models\User $user) {
+            return view('admin.users.show', compact('user'));
+        })->name('admin.users.show');
+
+        // Store User (Submit Form)
+        Route::post('users', function (Illuminate\Http\Request $request) {
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|string|min:8',
+                'saldo' => 'required|numeric|min:0',
+                'role' => 'required|in:admin,user',
+            ]);
+
+            App\Models\User::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'password' => bcrypt($validated['password']),
+                'saldo' => $validated['saldo'],
+                'role' => $validated['role'],
+            ]);
+
+            return redirect()->route('admin.users.index')->with('success', 'User berhasil dibuat.');
+        })->name('admin.users.store');
+
+        // Edit User (Form)
+        Route::get('users/{user}/edit', function (App\Models\User $user) {
+            return view('admin.users.edit', compact('user'));
+        })->name('admin.users.edit');
+
+        // Update User (Submit Form)
+        Route::put('users/{user}', function (Illuminate\Http\Request $request, App\Models\User $user) {
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email,' . $user->id,
+                'password' => 'nullable|string|min:8',
+                'saldo' => 'required|numeric|min:0',
+                'role' => 'required|in:admin,user',
+            ]);
+
+            $user->update([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'password' => $validated['password'] ? bcrypt($validated['password']) : $user->password,
+                'saldo' => $validated['saldo'],
+                'role' => $validated['role'],
+            ]);
+
+            return redirect()->route('admin.users.index')->with('success', 'User berhasil diperbarui.');
+        })->name('admin.users.update');
+
+        // Delete User
+        Route::delete('users/{user}', function (App\Models\User $user) {
+            $user->delete();
+            return redirect()->route('admin.users.index')->with('success', 'User berhasil dihapus.');
+        })->name('admin.users.destroy');
     });
 
     // User Routes

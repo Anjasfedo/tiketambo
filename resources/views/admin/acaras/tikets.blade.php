@@ -44,7 +44,7 @@
                                             <td>{{ $tiket->stok }}</td>
                                             <td>
                                                 <a href="{{ route('admin.acaras.sales', $tiket->id) }}" class="btn btn-primary btn-sm">
-                                                    Show Sales
+                                                    Penjualan
                                                 </a>
                                             </td>
                                         </tr>

@@ -12,6 +12,11 @@
             <li>
                 <a class="nav-link" href="{{ route('user.tickets.index') }}">Tiket</a>
             </li>
+                        @if (auth()->user()->role == 'admin')
+                <li>
+                    <a class="nav-link" href="{{ route('admin.users.index') }}">Pengguna</a>
+                </li>
+            @endif
         </ul>
     </li>
     <li class="menu-header">Penarikan Dana</li>

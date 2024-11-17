@@ -11,7 +11,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>List of Events</h4>
+                        <h4>Penjualan Acara</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -32,7 +32,7 @@
                                             <td>{{ $acara->tanggal }}</td>
                                             <td>
                                                 <a href="{{ route('admin.acaras.tikets', $acara->id) }}" class="btn btn-primary btn-sm">
-                                                    Show Tickets
+                                                    Penjualan Tiket
                                                 </a>
                                             </td>
                                         </tr>
