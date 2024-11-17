@@ -168,6 +168,9 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/acaras', [AcaraController::class, 'adminIndex'])->name('admin.acaras.index');
             Route::get('/acaras/{acara}/tikets', [AcaraController::class, 'showTickets'])->name('admin.acaras.tikets');
             Route::get('/tikets/{ticket}/sales', [AcaraController::class, 'showSales'])->name('admin.acaras.sales');
+            
+            Route::get('/acaras/sales/{month}', [AcaraController::class, 'salesByMonthDetail'])->name('admin.acaras.sales.detail');
+
 
             Route::get('/create/{tiket}', [PenjualanController::class, 'create'])->name('penjualan.create');
             Route::post('/store/{tiket}', [PenjualanController::class, 'store'])->name('penjualan.store');
