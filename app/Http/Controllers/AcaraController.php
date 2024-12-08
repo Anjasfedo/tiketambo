@@ -128,67 +128,67 @@ class AcaraController extends Controller
     }
 
     public function adminIndex(Request $request)
-{
-    $query = Acara::with(['tiket']);
+    {
+        $query = Acara::with(['tiket']);
 
-    // Filter by event name or location
-    if ($search = $request->input('search')) {
-        $query->where(function ($query) use ($search) {
-            $query->where('nama', 'like', "%$search%")
-                ->orWhere('lokasi', 'like', "%$search%");
-        });
-    }
+        // Filter by event name or location
+        if ($search = $request->input('search')) {
+            $query->where(function ($query) use ($search) {
+                $query->where('nama', 'like', "%$search%")
+                    ->orWhere('lokasi', 'like', "%$search%");
+            });
+        }
 
-    // Filter by ticket name or price
-    if ($ticketSearch = $request->input('ticket_search')) {
-        $query->whereHas('tiket', function ($q) use ($ticketSearch) {
-            $q->where('nama', 'like', "%$ticketSearch%")
-                ->orWhere('harga', 'like', "%$ticketSearch%");
-        });
-    }
+        // Filter by ticket name or price
+        if ($ticketSearch = $request->input('ticket_search')) {
+            $query->whereHas('tiket', function ($q) use ($ticketSearch) {
+                $q->where('nama', 'like', "%$ticketSearch%")
+                    ->orWhere('harga', 'like', "%$ticketSearch%");
+            });
+        }
 
-    // Filter by month using DATE_FORMAT for MySQL compatibility
-    if ($month = $request->input('tanggal')) {
-        $query->whereRaw("DATE_FORMAT(tanggal, '%Y-%m') = ?", [$month]);
-    }
+        // Filter by month using DATE_FORMAT for MySQL compatibility
+        if ($month = $request->input('tanggal')) {
+            $query->whereRaw("DATE_FORMAT(tanggal, '%Y-%m') = ?", [$month]);
+        }
 
-    // Get all distinct months for the dropdown using DATE_FORMAT for MySQL compatibility
-    $months = Acara::selectRaw("DISTINCT DATE_FORMAT(tanggal, '%Y-%m') as month")
-        ->orderBy('month', 'desc')
-        ->pluck('month');
+        // Get all distinct months for the dropdown using DATE_FORMAT for MySQL compatibility
+        $months = Acara::selectRaw("DISTINCT DATE_FORMAT(tanggal, '%Y-%m') as month")
+            ->orderBy('month', 'desc')
+            ->pluck('month');
 
-    // Pagination for acara
-    $acaras = $query->paginate(10);
+        // Pagination for acara
+        $acaras = $query->paginate(10);
 
-    // Handle date range filter for sales
-    $startDate = $request->input('start_date');
-    $endDate = $request->input('end_date');
+        // Handle date range filter for sales
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
 
-    $salesQuery = Penjualan::selectRaw("
+        $salesQuery = Penjualan::selectRaw("
         DATE_FORMAT(tanggal_pemesanan, '%Y-%m') as month,
         COUNT(*) as total_sales,
         SUM(pembayarans.jumlah_bayar) as total_revenue
     ")
-        ->join('pembayarans', 'penjualans.id', '=', 'pembayarans.penjualan_id');
+            ->join('pembayarans', 'penjualans.id', '=', 'pembayarans.penjualan_id');
 
-    if ($startDate && $endDate) {
-        $salesQuery->whereBetween('tanggal_pemesanan', [$startDate, $endDate]);
+        if ($startDate && $endDate) {
+            $salesQuery->whereBetween('tanggal_pemesanan', [$startDate, $endDate]);
+        }
+
+        $salesByMonth = $salesQuery->groupBy('month')
+            ->orderBy('month', 'desc')
+            ->paginate(10)
+            ->mapWithKeys(function ($item) {
+                return [
+                    $item->month => [
+                        'total_sales' => $item->total_sales,
+                        'total_revenue' => $item->total_revenue,
+                    ]
+                ];
+            });
+
+        return view('admin.acaras.index', compact('acaras', 'salesByMonth', 'months', 'startDate', 'endDate'));
     }
-
-    $salesByMonth = $salesQuery->groupBy('month')
-        ->orderBy('month', 'desc')
-        ->paginate(10)
-        ->mapWithKeys(function ($item) {
-            return [
-                $item->month => [
-                    'total_sales' => $item->total_sales,
-                    'total_revenue' => $item->total_revenue,
-                ]
-            ];
-        });
-
-    return view('admin.acaras.index', compact('acaras', 'salesByMonth', 'months', 'startDate', 'endDate'));
-}
 
 
 
@@ -196,8 +196,9 @@ class AcaraController extends Controller
     {
         // Fetch sales details for the given month
         $salesDetails = Penjualan::with(['pembayaran', 'buyer', 'tiket.acara'])
-            ->whereRaw("strftime('%Y-%m', tanggal_pemesanan) = ?", [$month])
+            ->whereRaw("DATE_FORMAT(tanggal_pemesanan, '%Y-%m') = ?", [$month])
             ->get();
+
 
         return view('admin.acaras.sales_detail', compact('salesDetails', 'month'));
     }
